@@ -3,6 +3,7 @@
         xmlns:vm="using:StandUpTimer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:valueConverters="clr-namespace:StandUpTimer.ValueConverters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StandUpTimer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -14,7 +15,7 @@
 
     <Grid RowDefinitions="* Auto">
 
-        <StackPanel>
+        <StackPanel DataContext="{Binding TimerSettings}">
             <UniformGrid Columns="7"
                          Rows="1"
                          Margin="14">
@@ -25,19 +26,28 @@
                         <Setter Property="Padding" Value="14" />
                     </Style>
                 </UniformGrid.Styles>
-                <ToggleButton Content="Su" />
-                <ToggleButton Content="Mo" />
-                <ToggleButton Content="Tu" />
-                <ToggleButton Content="We" />
-                <ToggleButton Content="Th" />
-                <ToggleButton Content="Fr" />
-                <ToggleButton Content="Sa" />
+                <ToggleButton Content="Su"
+                              IsChecked="{Binding IsSunday}" />
+                <ToggleButton Content="Mo"
+                              IsChecked="{Binding IsMonday}" />
+                <ToggleButton Content="Tu"
+                              IsChecked="{Binding IsTuesday}" />
+                <ToggleButton Content="We"
+                              IsChecked="{Binding IsWednesday}" />
+                <ToggleButton Content="Th"
+                              IsChecked="{Binding IsThursday}" />
+                <ToggleButton Content="Fr"
+                              IsChecked="{Binding IsFriday}" />
+                <ToggleButton Content="Sa"
+                              IsChecked="{Binding IsSaturday}" />
             </UniformGrid>
 
             <TimePicker MinuteIncrement="15"
-                        Header="From" />
+                        Header="From"
+                        SelectedTime="{Binding FromTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}" />
             <TimePicker MinuteIncrement="15"
-                        Header="To" />
+                        Header="To"
+                        SelectedTime="{Binding ToTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}"/>
             <TextBlock Text="Every" />
             <Slider Minimum="5"
                     Maximum="120" />
