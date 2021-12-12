@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StandUpTimer.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="StandUpTimer.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="StandUpTimer">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid RowDefinitions="* Auto">
+
+        <StackPanel>
+            <UniformGrid Columns="7"
+                         Rows="1"
+                         Margin="14">
+                <UniformGrid.Styles>
+                    <Style Selector="ToggleButton">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="14" />
+                    </Style>
+                </UniformGrid.Styles>
+                <ToggleButton Content="Su" />
+                <ToggleButton Content="Mo" />
+                <ToggleButton Content="Tu" />
+                <ToggleButton Content="We" />
+                <ToggleButton Content="Th" />
+                <ToggleButton Content="Fr" />
+                <ToggleButton Content="Sa" />
+            </UniformGrid>
+
+            <TimePicker MinuteIncrement="15"
+                        Header="From" />
+            <TimePicker MinuteIncrement="15"
+                        Header="To" />
+            <TextBlock Text="Every" />
+            <Slider Minimum="5"
+                    Maximum="120" />
+            <TextBlock Text="Stand" />
+            <Slider Minimum="0"
+                    Maximum="60" />
+            <TextBlock Text="Play Alert" />
+        </StackPanel>
+
+    </Grid>
+
+</Window>
