@@ -4,9 +4,39 @@ namespace StandUpTimer.Models;
 
 internal class StandTimer
 {
+    public event Action<Notify>? NotifyChanged;
+
     public void Start(TimerSettings settings)
     {
-        var isWork = IsWork(settings);
+        var closestNotify = GetClosestNotify(settings);
+
+        NotifyChanged?.Invoke(closestNotify);
+    }
+
+    private Notify GetClosestNotify(TimerSettings settings)
+    {
+        var now = DateTime.Now;
+        var nowDay = FromDayOfWeek(now.DayOfWeek);
+
+        if (settings.Day == Day.None)
+            return new AllDaysUnsettedNotify();
+
+        if (IsWorkDay(settings.Day, nowDay))
+        {
+        }
+
+        var nextDay = GetNextDay(settings.Day, nowDay);
+
+        return new TimerNotWorkingNotify();
+    }
+
+    private Day GetNextDay(Day settingsDay, Day nowDay)
+    {
+        var value = (int) settingsDay;
+
+        //Todo: get next day
+
+        return nowDay;
     }
 
     private static bool IsWork(TimerSettings settings)

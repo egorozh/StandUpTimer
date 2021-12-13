@@ -12,9 +12,11 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid RowDefinitions="* Auto">
+    <Grid RowDefinitions="Auto *">
 
-        <StackPanel >
+        <TextBlock Text="{Binding Message}" />
+
+        <StackPanel Grid.Row="1">
             <UniformGrid Columns="7"
                          Rows="1"
                          Margin="14">
@@ -42,22 +44,23 @@
             </UniformGrid>
 
             <Grid RowDefinitions="* *"
-                  ColumnDefinitions="* *">
+                  ColumnDefinitions="* *"
+                  Margin="14">
                 <TimePicker MinuteIncrement="15"
                             Header="From"
                             SelectedTime="{Binding FromTime}" />
-                <TimePicker Grid.Row="0" Grid.Column="1" 
+                <TimePicker Grid.Row="1" Grid.Column="0"
                             MinuteIncrement="15"
                             Header="To"
-                            SelectedTime="{Binding ToTime}"/>
-				<TimePicker Grid.Row="1" Grid.Column="0" 
+                            SelectedTime="{Binding ToTime}" />
+                <TimePicker Grid.Row="0" Grid.Column="1"
                             MinuteIncrement="5"
                             Header="Every Period"
-                            SelectedTime="{Binding EveryPeriod}"/>
-				<TimePicker MinuteIncrement="5"
+                            SelectedTime="{Binding EveryPeriod}" />
+                <TimePicker MinuteIncrement="5"
                             Grid.Row="1" Grid.Column="1"
                             Header="Stand Time"
-                            SelectedTime="{Binding StandTime}"/>
+                            SelectedTime="{Binding StandTime}" />
             </Grid>
 
         </StackPanel>

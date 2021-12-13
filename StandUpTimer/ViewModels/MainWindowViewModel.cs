@@ -1,15 +1,18 @@
-﻿using System;
+﻿using StandUpTimer.Models;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
-using StandUpTimer.Models;
 
 namespace StandUpTimer.ViewModels;
 
 internal class MainWindowViewModel : ViewModelBase
 {
     private readonly StandTimer _standTimer;
+
     private const string SettingsFileName = "settings.json";
+
+    public string? Message { get; set; }
 
     public bool IsSunday { get; set; }
     public bool IsMonday { get; set; }
@@ -29,10 +32,10 @@ internal class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        var timerSettings = File.Exists(SettingsFileName) 
-            ? FromJson(File.ReadAllText(SettingsFileName)) 
+        var timerSettings = File.Exists(SettingsFileName)
+            ? FromJson(File.ReadAllText(SettingsFileName))
             : new TimerSettings();
-        
+
         FromTime = timerSettings.FromTime;
         ToTime = timerSettings.ToTime;
         EveryPeriod = timerSettings.EveryPeriod;
@@ -41,15 +44,27 @@ internal class MainWindowViewModel : ViewModelBase
         SetActiveDays(timerSettings.Day);
 
         _standTimer = new StandTimer();
+
+        _standTimer.NotifyChanged += StandTimerOnNotifyChanged;
+
         _standTimer.Start(timerSettings);
 
         PropertyChanged += MainViewModelPropertyChanged;
     }
 
+    private void StandTimerOnNotifyChanged(Notify notify)
+    {
+        Message = notify.ToString();
+    }
+
+
     private void MainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var json = ToJson(GetSettings());
+        var settings = GetSettings();
+
+        var json = ToJson(settings);
         File.WriteAllText(SettingsFileName, json);
+        _standTimer.Start(settings);
     }
 
     private TimerSettings GetSettings() => new()
@@ -57,7 +72,7 @@ internal class MainWindowViewModel : ViewModelBase
         Day = GetActiveDays(),
         FromTime = FromTime,
         ToTime = ToTime,
-        EveryPeriod =EveryPeriod,
+        EveryPeriod = EveryPeriod,
         StandTime = StandTime
     };
 
