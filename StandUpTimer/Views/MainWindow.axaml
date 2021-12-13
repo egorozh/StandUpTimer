@@ -3,11 +3,10 @@
         xmlns:vm="using:StandUpTimer.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:valueConverters="clr-namespace:StandUpTimer.ValueConverters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StandUpTimer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="StandUpTimer">
+        Title="Stand Up Timer">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
@@ -42,19 +41,25 @@
                               IsChecked="{Binding IsSaturday}" />
             </UniformGrid>
 
-            <TimePicker MinuteIncrement="15"
-                        Header="From"
-                        SelectedTime="{Binding TimerSettings.FromTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}" />
-            <TimePicker MinuteIncrement="15"
-                        Header="To"
-                        SelectedTime="{Binding TimerSettings.ToTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}"/>
-            <TextBlock Text="Every" />
-            <Slider Minimum="5"
-                    Maximum="120" />
-            <TextBlock Text="Stand" />
-            <Slider Minimum="0"
-                    Maximum="60" />
-            <TextBlock Text="Play Alert" />
+            <Grid RowDefinitions="* *"
+                  ColumnDefinitions="* *">
+                <TimePicker MinuteIncrement="15"
+                            Header="From"
+                            SelectedTime="{Binding FromTime}" />
+                <TimePicker Grid.Row="0" Grid.Column="1" 
+                            MinuteIncrement="15"
+                            Header="To"
+                            SelectedTime="{Binding ToTime}"/>
+				<TimePicker Grid.Row="1" Grid.Column="0" 
+                            MinuteIncrement="5"
+                            Header="Every Period"
+                            SelectedTime="{Binding EveryPeriod}"/>
+				<TimePicker MinuteIncrement="5"
+                            Grid.Row="1" Grid.Column="1"
+                            Header="Stand Time"
+                            SelectedTime="{Binding StandTime}"/>
+            </Grid>
+
         </StackPanel>
 
     </Grid>
