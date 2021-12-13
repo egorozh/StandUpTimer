@@ -15,7 +15,7 @@
 
     <Grid RowDefinitions="* Auto">
 
-        <StackPanel DataContext="{Binding TimerSettings}">
+        <StackPanel >
             <UniformGrid Columns="7"
                          Rows="1"
                          Margin="14">
@@ -44,10 +44,10 @@
 
             <TimePicker MinuteIncrement="15"
                         Header="From"
-                        SelectedTime="{Binding FromTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}" />
+                        SelectedTime="{Binding TimerSettings.FromTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}" />
             <TimePicker MinuteIncrement="15"
                         Header="To"
-                        SelectedTime="{Binding ToTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}"/>
+                        SelectedTime="{Binding TimerSettings.ToTime, Converter={valueConverters:TimeOnlyToTimeSpanConverter}}"/>
             <TextBlock Text="Every" />
             <Slider Minimum="5"
                     Maximum="120" />
