@@ -4,7 +4,7 @@ internal abstract class Notify
 {
 }
 
-internal class StartSeatingPeriodNotify : Notify
+internal class StartSittingPeriodNotify : Notify
 {
 }
 
