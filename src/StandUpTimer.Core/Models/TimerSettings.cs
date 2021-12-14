@@ -1,6 +1,6 @@
 ﻿namespace StandUpTimer.Core.Models;
 
-internal class TimerSettings
+public class TimerSettings
 {
     public Day Day { get; set; } = Day.Monday | Day.Tuesday | Day.Wednesday | Day.Thursday | Day.Friday;
     

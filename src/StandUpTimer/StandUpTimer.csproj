@@ -14,10 +14,9 @@
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
 		<PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
-		<PackageReference Condition=" '$(TargetFramework)' != 'net6.0-windows10.0.17763.0' "
-		                  Include="MessageBox.Avalonia" Version="1.7.1" />
-		<PackageReference Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' "
-		                  Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+		<PackageReference Condition=" '$(TargetFramework)' != 'net6.0-windows10.0.17763.0' " Include="MessageBox.Avalonia" Version="1.7.1" />
+		<PackageReference Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' " Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\StandUpTimer.Core\StandUpTimer.Core.csproj" />

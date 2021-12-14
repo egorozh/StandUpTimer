@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandUpTimer.Core", "StandU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandUpTimer.Windows", "StandUpTimer.Windows\StandUpTimer.Windows.csproj", "{25479018-10F4-4BC9-A75C-58E66DD642F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{61D2A3A7-9D45-44C1-838C-935D64DB8F90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DF1E24CE-6F42-47D5-AD45-ED4D8567EBF9} = {61D2A3A7-9D45-44C1-838C-935D64DB8F90}
+		{25479018-10F4-4BC9-A75C-58E66DD642F0} = {61D2A3A7-9D45-44C1-838C-935D64DB8F90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {367C549A-3B03-41E1-BCEE-A15B137BD800}

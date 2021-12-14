@@ -1,17 +1,16 @@
 ﻿using StandUpTimer.Core.Models;
-using System.ComponentModel;
-using System.IO;
-using System.Text.Json;
 using StandUpTimer.Core.Services;
+using System.ComponentModel;
 
 namespace StandUpTimer.Core.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly INotifyService _notifyService;
+    private readonly ISettingsStorage _settingsStorage;
     private readonly StandTimer _standTimer;
 
-    private const string SettingsFileName = "settings.json";
+ 
 
     public string? Message { get; set; }
 
@@ -31,13 +30,12 @@ public class MainWindowViewModel : ViewModelBase
 
     public TimeSpan StandTime { get; set; }
 
-    public MainWindowViewModel(INotifyService notifyService)
+    public MainWindowViewModel(INotifyService notifyService, ISettingsStorage settingsStorage)
     {
         _notifyService = notifyService;
-
-        var timerSettings = File.Exists(SettingsFileName)
-            ? FromJson(File.ReadAllText(SettingsFileName))
-            : new TimerSettings();
+        _settingsStorage = settingsStorage;
+        
+        var timerSettings = _settingsStorage.GetSettings();
 
         FromTime = timerSettings.FromTime;
         ToTime = timerSettings.ToTime;
@@ -75,17 +73,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         var settings = GetSettings();
 
-        try
-        {
-            var json = ToJson(settings);
-            File.WriteAllText(SettingsFileName, json);
-        }
-        catch (Exception exception)
-        {
-            //Console.WriteLine(exception);
-            //throw;
-        }
-       
+        _settingsStorage.SetSettings(settings);
+        
         _standTimer.Start(settings);
     }
 
@@ -131,27 +120,5 @@ public class MainWindowViewModel : ViewModelBase
         IsSunday = day.HasFlag(Day.Sunday);
     }
 
-    private TimerSettings FromJson(string json)
-    {
-        try
-        {
-            return JsonSerializer.Deserialize<TimerSettings>(json) ?? new TimerSettings();
-        }
-        catch (Exception e)
-        {
-            return new TimerSettings();
-        }
-    }
-
-    private string ToJson(TimerSettings settings)
-    {
-        try
-        {
-            return JsonSerializer.Serialize(settings);
-        }
-        catch (Exception e)
-        {
-            return string.Empty;
-        }
-    }
+    
 }
