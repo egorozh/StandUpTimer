@@ -75,8 +75,17 @@ public class MainWindowViewModel : ViewModelBase
     {
         var settings = GetSettings();
 
-        var json = ToJson(settings);
-        File.WriteAllText(SettingsFileName, json);
+        try
+        {
+            var json = ToJson(settings);
+            File.WriteAllText(SettingsFileName, json);
+        }
+        catch (Exception exception)
+        {
+            //Console.WriteLine(exception);
+            //throw;
+        }
+       
         _standTimer.Start(settings);
     }
 

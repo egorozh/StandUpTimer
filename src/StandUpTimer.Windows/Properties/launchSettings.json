@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "StandUpTimer.Windows (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "StandUpTimer.Windows (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

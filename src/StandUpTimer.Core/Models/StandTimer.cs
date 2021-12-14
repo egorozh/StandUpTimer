@@ -26,7 +26,8 @@ internal class StandTimer
             var now = DateTime.Now.TimeOfDay;
 
             var delta = (time - now).TotalMilliseconds;
-            
+            //var delta = 1000;
+
             _timer = new Timer(delta);
             _timer.Elapsed += TimerOnElapsed;
             _timer.Start();
