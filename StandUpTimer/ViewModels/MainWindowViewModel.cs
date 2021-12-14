@@ -52,9 +52,9 @@ internal class MainWindowViewModel : ViewModelBase
         PropertyChanged += MainViewModelPropertyChanged;
     }
 
-    private void StandTimerOnNotifyChanged(Notify notify)
+    private void StandTimerOnNotifyChanged(Status status)
     {
-        Message = notify.ToString();
+        Message = status.ToString();
     }
 
 
