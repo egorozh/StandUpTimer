@@ -1,19 +1,8 @@
-﻿using System;
+﻿namespace StandUpTimer.Core.Models;
 
-namespace StandUpTimer.Models;
-
-internal class StandTimer
+internal static class TimeExtensions
 {
-    public event Action<Status>? NotifyChanged;
-
-    public void Start(TimerSettings settings)
-    {
-        var closestNotify = GetNowStatus(settings);
-
-        NotifyChanged?.Invoke(closestNotify);
-    }
-
-    private Status GetNowStatus(TimerSettings settings)
+    public static Status GetNowStatus(this TimerSettings settings)
     {
         if (settings.Day == Day.None)
             return new AllDaysUnsettedStatus();
@@ -23,13 +12,38 @@ internal class StandTimer
         var nowTime = now.TimeOfDay;
 
         if (IsWorkDay(settings.Day, nowDay) && IsWorkTime(settings.FromTime, settings.ToTime, nowTime))
-        {
             return GetWorkStatus(settings.FromTime, settings.EveryPeriod, settings.StandTime, nowTime);
-        }
-
-        var nextDay = GetNextDay(settings.Day, nowDay);
 
         return new TimerNotWorkingStatus();
+    }
+
+    public static Notify? GetClosestNotify(this TimerSettings settings, Status status) => status switch
+    {
+        AllDaysUnsettedStatus s => null,
+        SittingPeriodStatus s => settings.GetNextNotify(s),
+        StandUpPeriodStatus s => settings.GetNextNotify(s),
+        TimerNotWorkingStatus s => null,
+        _ => null
+    };
+
+    private static Notify GetNextNotify(this TimerSettings settings, SittingPeriodStatus status)
+    {
+        var sitTo = status.SitTo;
+
+        if (sitTo < settings.ToTime)
+            return new GoStandUpNotify(sitTo);
+        else
+            return new EndWorkDayNotify(settings.ToTime);
+    }
+
+    private static Notify GetNextNotify(this TimerSettings settings, StandUpPeriodStatus status)
+    {
+        var standTo = status.StandTo;
+
+        if (standTo < settings.ToTime)
+            return new GoSitNotify(standTo);
+        else
+            return new EndWorkDayNotify(settings.ToTime);
     }
 
     private static Status GetWorkStatus(in TimeSpan from, in TimeSpan every, in TimeSpan stand, in TimeSpan now)
@@ -50,7 +64,7 @@ internal class StandTimer
         return new SittingPeriodStatus(sitTo);
     }
 
-    private Day GetNextDay(Day settingsDay, Day nowDay)
+    private static Day GetNextDay(Day settingsDay, Day nowDay)
     {
         var value = (int) settingsDay;
 
@@ -66,7 +80,7 @@ internal class StandTimer
         => settingsDay.HasFlag(nowDay);
 
     private static Day FromDayOfWeek(in DayOfWeek day) => day switch
-    {   
+    {
         DayOfWeek.Sunday => Day.Sunday,
         DayOfWeek.Monday => Day.Monday,
         DayOfWeek.Tuesday => Day.Tuesday,

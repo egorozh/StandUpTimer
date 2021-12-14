@@ -1,13 +1,14 @@
-﻿using StandUpTimer.Models;
-using System;
+﻿using StandUpTimer.Core.Models;
 using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
+using StandUpTimer.Core.Services;
 
-namespace StandUpTimer.ViewModels;
+namespace StandUpTimer.Core.ViewModels;
 
-internal class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
+    private readonly INotifyService _notifyService;
     private readonly StandTimer _standTimer;
 
     private const string SettingsFileName = "settings.json";
@@ -30,8 +31,10 @@ internal class MainWindowViewModel : ViewModelBase
 
     public TimeSpan StandTime { get; set; }
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(INotifyService notifyService)
     {
+        _notifyService = notifyService;
+
         var timerSettings = File.Exists(SettingsFileName)
             ? FromJson(File.ReadAllText(SettingsFileName))
             : new TimerSettings();
@@ -45,18 +48,28 @@ internal class MainWindowViewModel : ViewModelBase
 
         _standTimer = new StandTimer();
 
-        _standTimer.NotifyChanged += StandTimerOnNotifyChanged;
-
+        _standTimer.StatusChanged += StandTimerOnStatusChanged;
+        _standTimer.Notify += StandTimerOnNotify;
         _standTimer.Start(timerSettings);
 
         PropertyChanged += MainViewModelPropertyChanged;
     }
 
-    private void StandTimerOnNotifyChanged(Status status)
+    private async void StandTimerOnNotify(Notify notify)
+    {
+       await _notifyService.Notify(notify);
+
+      
+
+        var settings = GetSettings();
+        
+        _standTimer.Start(settings);
+    }
+
+    private void StandTimerOnStatusChanged(Status status)
     {
         Message = status.ToString();
     }
-
 
     private void MainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {

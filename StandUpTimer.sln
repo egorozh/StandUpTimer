@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandUpTimer", "StandUpTimer\StandUpTimer.csproj", "{DF1E24CE-6F42-47D5-AD45-ED4D8567EBF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StandUpTimer", "StandUpTimer\StandUpTimer.csproj", "{DF1E24CE-6F42-47D5-AD45-ED4D8567EBF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandUpTimer.Core", "StandUpTimer.Core\StandUpTimer.Core.csproj", "{38C7AB75-09F8-4116-961C-4755F925619B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{DF1E24CE-6F42-47D5-AD45-ED4D8567EBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF1E24CE-6F42-47D5-AD45-ED4D8567EBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF1E24CE-6F42-47D5-AD45-ED4D8567EBF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C7AB75-09F8-4116-961C-4755F925619B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C7AB75-09F8-4116-961C-4755F925619B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C7AB75-09F8-4116-961C-4755F925619B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C7AB75-09F8-4116-961C-4755F925619B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace StandUpTimer.ViewModels;
+namespace StandUpTimer.Core.ViewModels;
 
 public class ViewModelBase : INotifyPropertyChanged
 {

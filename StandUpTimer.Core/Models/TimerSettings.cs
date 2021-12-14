@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StandUpTimer.Models;
+﻿namespace StandUpTimer.Core.Models;
 
 internal class TimerSettings
 {

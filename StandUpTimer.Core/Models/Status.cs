@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StandUpTimer.Models;
+﻿namespace StandUpTimer.Core.Models;
 
 internal abstract class Status
 {
@@ -8,26 +6,26 @@ internal abstract class Status
     
 internal class SittingPeriodStatus : Status
 {
-    private readonly TimeSpan _sitTo;
+    public TimeSpan SitTo { get; }
 
     public SittingPeriodStatus(TimeSpan sitTo)
     {
-        _sitTo = sitTo;
+        SitTo = sitTo;
     }
 
-    public override string ToString() => $"Сейчас время сидеть. Конец периода в {_sitTo}";
+    public override string ToString() => $"Сейчас время сидеть. Конец периода в {SitTo}";
 }
 
 internal class StandUpPeriodStatus : Status
 {
-    private readonly TimeSpan _standTo;
+    public TimeSpan StandTo { get; }
 
     public StandUpPeriodStatus(TimeSpan standTo)
     {
-        _standTo = standTo;
+        StandTo = standTo;
     }
 
-    public override string ToString() => $"Сейчас время стоять. Конец периода в {_standTo}";
+    public override string ToString() => $"Сейчас время стоять. Конец периода в {StandTo}";
 }
 
 internal class TimerNotWorkingStatus : Status

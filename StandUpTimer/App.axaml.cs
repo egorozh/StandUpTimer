@@ -1,8 +1,12 @@
+using System.Runtime.InteropServices;
+using Autofac;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PropertyChanged;
-using StandUpTimer.ViewModels;
+using StandUpTimer.Core.Services;
+using StandUpTimer.Core.ViewModels;
+using StandUpTimer.Services;
 using StandUpTimer.Views;
 
 namespace StandUpTimer;
@@ -19,9 +23,23 @@ public class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            var builder = new ContainerBuilder();
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                builder.RegisterType<WindowsNotifyService>().As<INotifyService>().SingleInstance();
+            }
+            else
+            {
+                builder.RegisterType<DefaultNotifyService>().As<INotifyService>().SingleInstance();
+            }
+
+            builder.RegisterType<MainWindowViewModel>().AsSelf();
+            var host = builder.Build();
+
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = host.Resolve<MainWindowViewModel>(),
             };
         }
 
