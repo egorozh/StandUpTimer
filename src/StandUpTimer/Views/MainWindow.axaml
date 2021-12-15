@@ -2,19 +2,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:StandUpTimer.Core.ViewModels;assembly=StandUpTimer.Core"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StandUpTimer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
 
         Title="Stand Up Timer"
         Width="640" MinWidth="640"
-        Height="380" MinHeight="380"
+        Height="480" MinHeight="480"
         WindowStartupLocation="CenterScreen">
-
-    <Design.DataContext>
-        <viewModels:MainWindowViewModel />
-    </Design.DataContext>
 
     <Grid RowDefinitions="Auto *">
 
@@ -47,26 +42,39 @@
                               IsChecked="{Binding IsSaturday}" />
             </UniformGrid>
 
+            <TextBlock Text="Время работы таймера:" />
+
             <Grid RowDefinitions="* *"
                   ColumnDefinitions="* *"
                   Margin="14">
                 <TimePicker MinuteIncrement="15"
-                            Header="From"
+                            Header="с"
                             SelectedTime="{Binding FromTime}" />
                 <TimePicker Grid.Row="1" Grid.Column="0"
                             MinuteIncrement="15"
-                            Header="To"
+                            Header="по"
                             SelectedTime="{Binding ToTime}" />
-                <TimePicker Grid.Row="0" Grid.Column="1"
-                            MinuteIncrement="5"
-                            Header="Every Period"
-                            SelectedTime="{Binding EveryPeriod}" />
-                <TimePicker MinuteIncrement="5"
-                            Grid.Row="1" Grid.Column="1"
-                            Header="Stand Time"
-                            SelectedTime="{Binding StandTime}" />
+
+
             </Grid>
 
+            <!--Every Period-->
+            <Slider Minimum="5"
+                    Maximum="120"
+                    Margin="14 0"
+                    Tag="Сидя:"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="5"
+                    Value="{Binding EveryPeriod}" />
+
+            <!--Stand Time-->
+            <Slider Minimum="0"
+                    Maximum="60"
+                    Tag="Стоя:"
+                    Margin="14 0"
+                    IsSnapToTickEnabled="True"
+                    Ticks="0,1,2,3,4,5,10,15,20,25,30,35,40,45,50,55,60"
+                    Value="{Binding StandTime}" />
         </StackPanel>
 
     </Grid>

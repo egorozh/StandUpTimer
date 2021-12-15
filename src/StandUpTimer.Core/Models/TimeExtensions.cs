@@ -9,7 +9,7 @@ public static class TimeExtensions
         if (settings.Day == Day.None)
             return new AllDaysUnsettedStatus();
 
-        if (settings.StandTime.Minutes <= 0 || settings.EveryPeriod.Minutes <= 0)
+        if (settings.StandTime.TotalMinutes <= 0 || settings.EveryPeriod.TotalMinutes <= 0)
             return new TimerNotWorkingStatus();
 
         var now = DateTime.Now;

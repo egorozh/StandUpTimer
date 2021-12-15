@@ -1,6 +1,7 @@
 ﻿using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace StandUpTimer.Core.ViewModels;
 
@@ -10,7 +11,6 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ISettingsStorage _settingsStorage;
     private readonly StandTimer _standTimer;
 
- 
 
     public string? Message { get; set; }
 
@@ -26,21 +26,27 @@ public class MainWindowViewModel : ViewModelBase
 
     public TimeSpan ToTime { get; set; }
 
-    public TimeSpan EveryPeriod { get; set; }
+    /// <summary>
+    /// min
+    /// </summary>
+    public int EveryPeriod { get; set; }
 
-    public TimeSpan StandTime { get; set; }
+    /// <summary>
+    /// min
+    /// </summary>
+    public int StandTime { get; set; }
 
     public MainWindowViewModel(INotifyService notifyService, ISettingsStorage settingsStorage)
     {
         _notifyService = notifyService;
         _settingsStorage = settingsStorage;
-        
+
         var timerSettings = _settingsStorage.GetSettings();
 
         FromTime = timerSettings.FromTime;
         ToTime = timerSettings.ToTime;
-        EveryPeriod = timerSettings.EveryPeriod;
-        StandTime = timerSettings.StandTime;
+        EveryPeriod = timerSettings.EveryPeriod.Minutes;
+        StandTime = timerSettings.StandTime.Minutes;
 
         SetActiveDays(timerSettings.Day);
 
@@ -55,12 +61,12 @@ public class MainWindowViewModel : ViewModelBase
 
     private async void StandTimerOnNotify(Notify notify)
     {
-       await _notifyService.Notify(notify);
+        await _notifyService.Notify(notify);
 
-      
+        await Task.Delay(1000);
 
         var settings = GetSettings();
-        
+
         _standTimer.Start(settings);
     }
 
@@ -74,7 +80,7 @@ public class MainWindowViewModel : ViewModelBase
         var settings = GetSettings();
 
         _settingsStorage.SetSettings(settings);
-        
+
         _standTimer.Start(settings);
     }
 
@@ -83,8 +89,8 @@ public class MainWindowViewModel : ViewModelBase
         Day = GetActiveDays(),
         FromTime = FromTime,
         ToTime = ToTime,
-        EveryPeriod = EveryPeriod,
-        StandTime = StandTime
+        EveryPeriod = new TimeSpan(0, EveryPeriod, 0),
+        StandTime = new TimeSpan(0, StandTime, 0),
     };
 
     private Day GetActiveDays()
@@ -119,6 +125,4 @@ public class MainWindowViewModel : ViewModelBase
         IsSaturday = day.HasFlag(Day.Saturday);
         IsSunday = day.HasFlag(Day.Sunday);
     }
-
-    
 }
