@@ -37,9 +37,22 @@ internal class WorkingNextDayStatus : Status
         NextStartTime = nextStartTime;
     }
     
-    public override string ToString() => $"Таймер включится в {NextStartTime.DayOfWeek} " +
+    public override string ToString() => $"Таймер включится {OfDay(NextStartTime.DayOfWeek)} " +
                                          $"({NextStartTime.ToShortDateString()}) в " +
                                          $"{NextStartTime.ToShortTimeString()}";
+
+    private static string OfDay(DayOfWeek day) => day switch
+    {
+        DayOfWeek.Sunday => "в воскресенье",
+        DayOfWeek.Monday => "в понедельник",
+        DayOfWeek.Tuesday => "во вторник",
+        DayOfWeek.Wednesday => "в среду",
+        DayOfWeek.Thursday => "в четверг",
+        DayOfWeek.Friday => "в пятницу",
+        DayOfWeek.Saturday => "в субботу",
+        _ => throw new ArgumentOutOfRangeException(nameof(day), day, null)
+    };
+
 }
 
 internal class TimerNotWorkingStatus : Status

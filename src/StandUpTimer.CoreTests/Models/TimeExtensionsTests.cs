@@ -11,6 +11,7 @@ namespace StandUpTimer.CoreTests.Models
         [DataRow(Day.Sunday, Day.Saturday | Day.Sunday, Day.Saturday)]
         [DataRow(Day.Friday, Day.Saturday | Day.Sunday, Day.Saturday)]
         [DataRow(Day.Sunday, Day.Saturday | Day.Sunday, Day.Saturday)]
+        [DataRow(Day.Sunday, Day.Monday | Day.Friday, Day.Monday)]
         public void GetNextDayTest(Day currentDay, Day settingsDays, Day expected)
         {
             var day = TimeExtensions.GetNextDay(settingsDays, currentDay);

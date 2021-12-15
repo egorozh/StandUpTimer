@@ -22,10 +22,16 @@ internal class StandTimer
 
         if (_closestNotify != null)
         {
-            var time = _closestNotify.Time;
-            var now = DateTime.Now.TimeOfDay;
+            
+            var now = DateTime.Now;
 
-            var delta = (time - now).TotalMilliseconds;
+            double delta;
+
+            if (_closestNotify is StartWorkDayNotify startWorkDay)
+                delta = (startWorkDay.DateTime - now).TotalMilliseconds;
+            else
+                delta = (_closestNotify.Time - now.TimeOfDay).TotalMilliseconds;
+
             //var delta = 1000;
 
             _timer = new Timer(delta);

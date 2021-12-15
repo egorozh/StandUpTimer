@@ -28,6 +28,7 @@ public static class TimeExtensions
         SittingPeriodStatus s => settings.GetNextNotify(s),
         StandUpPeriodStatus s => settings.GetNextNotify(s),
         TimerNotWorkingStatus s => null,
+        WorkingNextDayStatus s => new StartWorkDayNotify(s.NextStartTime),
         _ => null
     };
 
@@ -52,7 +53,7 @@ public static class TimeExtensions
         else
             return new EndWorkDayNotify(settings.ToTime);
     }
-
+  
     private static Status GetWorkStatus(in TimeSpan from, in TimeSpan every, in TimeSpan stand, in TimeSpan now)
     {
         var deltaNow = now - from;
@@ -89,11 +90,36 @@ public static class TimeExtensions
         _ => Day.None
     };
 
+    private static DayOfWeek FromDay(in Day day) => day switch
+    {
+        Day.Sunday => DayOfWeek.Sunday,
+        Day.Monday => DayOfWeek.Monday,
+        Day.Tuesday => DayOfWeek.Tuesday,
+        Day.Wednesday => DayOfWeek.Wednesday,
+        Day.Thursday => DayOfWeek.Thursday,
+        Day.Friday => DayOfWeek.Friday,
+        Day.Saturday => DayOfWeek.Saturday,
+        _ => DayOfWeek.Friday
+    };
+
     private static DateTime GetNextWorkStartDate(TimerSettings settings, DateTime now, Day nowDay)
     {
         var nextday = GetNextDay(settings.Day, nowDay);
 
-        return new DateTime();
+        var date = GetDateNextDate(nextday, now);
+        var time = settings.FromTime;
+
+        return new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
+    }
+
+    private static DateTime GetDateNextDate(Day nextday, DateTime now)
+        => GetNextWeekday(now, FromDay(nextday));
+
+    private static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+    {
+        // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
+        int daysToAdd = ((int) day - (int) start.DayOfWeek + 7) % 7;
+        return start.AddDays(daysToAdd);
     }
 
     public static Day GetNextDay(Day settingsDays, Day nowDay)
@@ -106,7 +132,7 @@ public static class TimeExtensions
         for (var i = 0; i < 8; i++)
         {
             if (GetBit(nowDayV, i))
-            {   
+            {
                 nowIndex = i;
                 break;
             }
@@ -114,7 +140,7 @@ public static class TimeExtensions
 
         var nextDayIndex = nowIndex;
         var flag = false;
-            
+
         for (int i = nowIndex + 1; i < 8; i++)
         {
             if (GetBit(days, i))
@@ -127,9 +153,9 @@ public static class TimeExtensions
 
         if (!flag)
         {
-            for (byte i = 1; i < nowIndex; i++)
-            {   
-                if (GetBit(days,i))
+            for (byte i = 0; i < nowIndex; i++)
+            {
+                if (GetBit(days, i))
                 {
                     nextDayIndex = i;
                     break;
