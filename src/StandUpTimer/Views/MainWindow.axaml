@@ -9,54 +9,65 @@
         Title="Stand Up Timer"
         Width="640" MinWidth="640"
         Height="480" MinHeight="480"
+        CanResize="False"
         WindowStartupLocation="CenterScreen">
 
-    <Grid RowDefinitions="Auto *">
+    <Grid RowDefinitions="Auto Auto *">
+   
+        <Grid Grid.Row="0"
+              RowDefinitions="Auto * *"
+              ColumnDefinitions="Auto Auto *"
+              Margin="14">
 
-        <TextBlock Text="{Binding Message}" />
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="Время работы таймера:" />
 
-        <StackPanel Grid.Row="1">
-            <UniformGrid Columns="7"
-                         Rows="1"
-                         Margin="14">
-                <UniformGrid.Styles>
+            <TimePicker Grid.Row="1" Grid.Column="0"
+                        MinuteIncrement="15"
+                        Header="с"
+                        SelectedTime="{Binding FromTime}" />
+            <TimePicker Grid.Row="2" Grid.Column="0"
+                        MinuteIncrement="15"
+                        Header="по"
+                        SelectedTime="{Binding ToTime}" />
+
+            <StackPanel Grid.Row="1" Grid.Column="2" Grid.RowSpan="2"
+                        Margin="14 0 0 0">
+                <StackPanel.Styles>
                     <Style Selector="ToggleButton">
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                         <Setter Property="Padding" Value="14" />
+                        <Setter Property="Margin" Value="2 0 2 2" />
                     </Style>
-                </UniformGrid.Styles>
-                <ToggleButton Content="Su"
-                              IsChecked="{Binding IsSunday}" />
-                <ToggleButton Content="Mo"
-                              IsChecked="{Binding IsMonday}" />
-                <ToggleButton Content="Tu"
-                              IsChecked="{Binding IsTuesday}" />
-                <ToggleButton Content="We"
-                              IsChecked="{Binding IsWednesday}" />
-                <ToggleButton Content="Th"
-                              IsChecked="{Binding IsThursday}" />
-                <ToggleButton Content="Fr"
-                              IsChecked="{Binding IsFriday}" />
-                <ToggleButton Content="Sa"
-                              IsChecked="{Binding IsSaturday}" />
-            </UniformGrid>
+                </StackPanel.Styles>
 
-            <TextBlock Text="Время работы таймера:" />
+                <UniformGrid Columns="5" Rows="1">
+                    <ToggleButton Content="Пн"
+                                  IsChecked="{Binding IsMonday}" />
+                    <ToggleButton Content="Вт"
+                                  IsChecked="{Binding IsTuesday}" />
+                    <ToggleButton Content="Ср"
+                                  IsChecked="{Binding IsWednesday}" />
+                    <ToggleButton Content="Чт"
+                                  IsChecked="{Binding IsThursday}" />
+                    <ToggleButton Content="Пн"
+                                  IsChecked="{Binding IsFriday}" />
+                </UniformGrid>
+                <UniformGrid Columns="2" Rows="1">
+                    <ToggleButton Content="Сб"
+                                  Margin="2 2 2 0"
+                                  IsChecked="{Binding IsSaturday}" />
+                    <ToggleButton Content="Вс"
+                                  Margin="2 2 2 0"
+                                  IsChecked="{Binding IsSunday}" />
+                </UniformGrid>
 
-            <Grid RowDefinitions="* *"
-                  ColumnDefinitions="* *"
-                  Margin="14">
-                <TimePicker MinuteIncrement="15"
-                            Header="с"
-                            SelectedTime="{Binding FromTime}" />
-                <TimePicker Grid.Row="1" Grid.Column="0"
-                            MinuteIncrement="15"
-                            Header="по"
-                            SelectedTime="{Binding ToTime}" />
+            </StackPanel>
 
+        </Grid>
 
-            </Grid>
+        <StackPanel Grid.Row="1">
 
             <!--Every Period-->
             <Slider Minimum="5"
@@ -77,6 +88,14 @@
                     Value="{Binding StandTime}" />
         </StackPanel>
 
+        <TextBlock Grid.Row="2"
+                   Text="{Binding Message}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   FontSize="42"
+                   TextWrapping="Wrap" 
+                   FontFamily="avares://StandUpTimer/Assets/a_lcdnova.ttf#a_LCDNova"/>
     </Grid>
 
 </Window>
