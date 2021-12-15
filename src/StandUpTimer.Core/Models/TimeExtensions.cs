@@ -102,7 +102,7 @@ public static class TimeExtensions
         _ => DayOfWeek.Friday
     };
 
-    private static DateTime GetNextWorkStartDate(TimerSettings settings, DateTime now, Day nowDay)
+    private static DateTime GetNextWorkStartDate(TimerSettings settings, in DateTime now, in Day nowDay)
     {
         var nextday = GetNextDay(settings.Day, nowDay);
 
@@ -112,17 +112,17 @@ public static class TimeExtensions
         return new DateTime(date.Year, date.Month, date.Day, time.Hours, time.Minutes, time.Seconds);
     }
 
-    private static DateTime GetDateNextDate(Day nextday, DateTime now)
+    private static DateTime GetDateNextDate(in Day nextday, in DateTime now)
         => GetNextWeekday(now, FromDay(nextday));
 
-    private static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
+    private static DateTime GetNextWeekday(in DateTime start, in DayOfWeek day)
     {
         // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
         int daysToAdd = ((int) day - (int) start.DayOfWeek + 7) % 7;
         return start.AddDays(daysToAdd);
     }
 
-    public static Day GetNextDay(Day settingsDays, Day nowDay)
+    public static Day GetNextDay(in Day settingsDays, in Day nowDay)
     {
         var nowIndex = 0;
         GetIndex((byte) nowDay, ref nowIndex);
