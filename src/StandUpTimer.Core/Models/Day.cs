@@ -1,7 +1,7 @@
 ﻿namespace StandUpTimer.Core.Models;
 
 [Flags]
-public enum Day
+public enum Day : byte
 {
     None = 0,
     Monday = 1,

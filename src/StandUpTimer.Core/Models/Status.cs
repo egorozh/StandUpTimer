@@ -1,9 +1,9 @@
 ﻿namespace StandUpTimer.Core.Models;
 
-internal abstract class Status
+public abstract class Status
 {
 }
-    
+
 internal class SittingPeriodStatus : Status
 {
     public TimeSpan SitTo { get; }
@@ -26,6 +26,20 @@ internal class StandUpPeriodStatus : Status
     }
 
     public override string ToString() => $"Сейчас время стоять. Конец периода в {StandTo}";
+}
+
+internal class WorkingNextDayStatus : Status
+{
+    public DateTime NextStartTime { get; }
+
+    public WorkingNextDayStatus(DateTime nextStartTime)
+    {
+        NextStartTime = nextStartTime;
+    }
+    
+    public override string ToString() => $"Таймер включится в {NextStartTime.DayOfWeek} " +
+                                         $"({NextStartTime.ToShortDateString()}) в " +
+                                         $"{NextStartTime.ToShortTimeString()}";
 }
 
 internal class TimerNotWorkingStatus : Status

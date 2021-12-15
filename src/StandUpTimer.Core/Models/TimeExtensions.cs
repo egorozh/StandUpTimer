@@ -1,11 +1,16 @@
 ﻿namespace StandUpTimer.Core.Models;
 
-internal static class TimeExtensions
+public static class TimeExtensions
 {
+    #region Public Methods
+
     public static Status GetNowStatus(this TimerSettings settings)
     {
         if (settings.Day == Day.None)
             return new AllDaysUnsettedStatus();
+
+        if (settings.StandTime.Minutes <= 0 || settings.EveryPeriod.Minutes <= 0)
+            return new TimerNotWorkingStatus();
 
         var now = DateTime.Now;
         var nowDay = FromDayOfWeek(now.DayOfWeek);
@@ -14,7 +19,7 @@ internal static class TimeExtensions
         if (IsWorkDay(settings.Day, nowDay) && IsWorkTime(settings.FromTime, settings.ToTime, nowTime))
             return GetWorkStatus(settings.FromTime, settings.EveryPeriod, settings.StandTime, nowTime);
 
-        return new TimerNotWorkingStatus();
+        return new WorkingNextDayStatus(GetNextWorkStartDate(settings, now, nowDay));
     }
 
     public static Notify? GetClosestNotify(this TimerSettings settings, Status status) => status switch
@@ -25,6 +30,8 @@ internal static class TimeExtensions
         TimerNotWorkingStatus s => null,
         _ => null
     };
+
+    #endregion
 
     private static Notify GetNextNotify(this TimerSettings settings, SittingPeriodStatus status)
     {
@@ -64,15 +71,6 @@ internal static class TimeExtensions
         return new SittingPeriodStatus(sitTo);
     }
 
-    private static Day GetNextDay(Day settingsDay, Day nowDay)
-    {
-        var value = (int) settingsDay;
-
-        //Todo: get next day
-
-        return nowDay;
-    }
-
     private static bool IsWorkTime(in TimeSpan from, in TimeSpan to, in TimeSpan now)
         => now >= from && now <= to;
 
@@ -90,4 +88,57 @@ internal static class TimeExtensions
         DayOfWeek.Saturday => Day.Saturday,
         _ => Day.None
     };
+
+    private static DateTime GetNextWorkStartDate(TimerSettings settings, DateTime now, Day nowDay)
+    {
+        var nextday = GetNextDay(settings.Day, nowDay);
+
+        return new DateTime();
+    }
+
+    public static Day GetNextDay(Day settingsDays, Day nowDay)
+    {
+        var days = (byte) settingsDays;
+        var nowDayV = (byte) nowDay;
+
+        var nowIndex = 0;
+
+        for (var i = 0; i < 8; i++)
+        {
+            if (GetBit(nowDayV, i))
+            {   
+                nowIndex = i;
+                break;
+            }
+        }
+
+        var nextDayIndex = nowIndex;
+        var flag = false;
+            
+        for (int i = nowIndex + 1; i < 8; i++)
+        {
+            if (GetBit(days, i))
+            {
+                nextDayIndex = i;
+                flag = true;
+                break;
+            }
+        }
+
+        if (!flag)
+        {
+            for (byte i = 1; i < nowIndex; i++)
+            {   
+                if (GetBit(days,i))
+                {
+                    nextDayIndex = i;
+                    break;
+                }
+            }
+        }
+
+        return (Day) Math.Pow(2, nextDayIndex);
+
+        static bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber)) != 0;
+    }
 }
