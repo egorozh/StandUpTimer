@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Microsoft.UI.Xaml;
+using Serilog;
 using StandUpTimer.Core.Services;
 using StandUpTimer.Core.ViewModels;
 using StandUpTimer.Services;
@@ -32,7 +33,15 @@ public partial class App : Application
     {
         var builder = new ContainerBuilder();
 
+        Log.Logger = new LoggerConfiguration()
+            //.WriteTo.File("log-.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+        builder.RegisterInstance(Log.Logger).As<ILogger>().SingleInstance();
+
         builder.RegisterType<WindowsNotifyService>().As<INotifyService>().SingleInstance();
+        builder.RegisterType<JsonSettingsSerializer>().As<ISettingsSerializer>().SingleInstance();
+        builder.RegisterType<WindowsSettingsStorage>().As<ISettingsStorage>().SingleInstance();
         builder.RegisterType<MainWindowViewModel>().AsSelf();
         var host = builder.Build();
 

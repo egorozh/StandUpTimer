@@ -7,7 +7,7 @@ public abstract class Notify
     public TimeSpan Time { get; protected set; }
 }
 
-internal class GoStandUpNotify : Notify
+public class GoStandUpNotify : Notify
 {
     public override string Message => "Пора вставать на ноги!";
     public override string Title => "Напоминание";
@@ -18,7 +18,7 @@ internal class GoStandUpNotify : Notify
     }
 }
 
-internal class GoSitNotify : Notify
+public class GoSitNotify : Notify
 {
     public override string Message => "Можно садиться!";
     public override string Title => "Напоминание";
@@ -29,7 +29,7 @@ internal class GoSitNotify : Notify
     }
 }
 
-internal class EndWorkDayNotify : Notify
+public class EndWorkDayNotify : Notify
 {
     public override string Message => "Конец рабочего дня. Время расслабиться!)";
     public override string Title => "Напоминание";
@@ -40,11 +40,11 @@ internal class EndWorkDayNotify : Notify
     }
 }
 
-internal class StartWorkDayNotify : Notify
+public class StartWorkDayNotify : Notify
 {
     public override string Message => "Начало рабочего дня!)";
     public override string Title => "Напоминание";
-    
+
     public DateTime DateTime { get; }
 
     public StartWorkDayNotify(DateTime time)

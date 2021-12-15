@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 #if WIN10
+using System;
 using Avalonia.Threading;
 using Microsoft.Toolkit.Uwp.Notifications;
 #endif
@@ -12,18 +13,16 @@ internal class WindowsNotifyService : INotifyService
 {
     public async Task Notify(Notify notify)
     {
-
 #if WIN10
-
-var builder = new ToastContentBuilder()
-            .AddArgument("action", "viewConversation")
-            .AddArgument("conversationId", 9813)
-            .AddText(notify.Title)
-            .AddText(notify.Message);
-
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            builder.Show();
+            var builder = new ToastContentBuilder()
+                .AddArgument("action", "viewConversation")
+                .AddArgument("conversationId", 9813)
+                .AddText(notify.Title)
+                .AddText(notify.Message);
+                
+            builder.Show(toast => { toast.ExpirationTime = DateTime.Now.AddMinutes(5); });
         });
 #endif
     }

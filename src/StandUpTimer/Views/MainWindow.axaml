@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterScreen">
 
     <Grid RowDefinitions="Auto Auto *">
-   
+
         <Grid Grid.Row="0"
               RowDefinitions="Auto * *"
               ColumnDefinitions="Auto Auto *"
@@ -94,8 +94,8 @@
                    HorizontalAlignment="Center"
                    TextAlignment="Center"
                    FontSize="42"
-                   TextWrapping="Wrap" 
-                   FontFamily="avares://StandUpTimer/Assets/a_lcdnova.ttf#a_LCDNova"/>
+                   TextWrapping="Wrap"
+                   FontFamily="avares://StandUpTimer/Assets/a_lcdnova.ttf#a_LCDNova" />
     </Grid>
 
 </Window>

@@ -2,6 +2,7 @@
 using Microsoft.UI.Dispatching;
 using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace StandUpTimer.Services;
@@ -25,7 +26,22 @@ internal class WindowsNotifyService : INotifyService
                 .AddText(notify.Title)
                 .AddText(notify.Message);
 
-            builder.Show();
+            var audio = GetAudioUrl(notify);
+
+            if (audio != null)
+                builder.AddAudio(audio);
+
+
+            builder.Show(toast => { toast.ExpirationTime = DateTime.Now.AddMinutes(5); });
         });
     }
+
+    private static Uri? GetAudioUrl(Notify notify) => notify switch
+    {
+        EndWorkDayNotify => null,
+        GoSitNotify => new Uri("ms-appx:///Assets/toSit.mp3"),
+        GoStandUpNotify => new Uri("ms-appx:///Assets/toStand.mp3"),
+        StartWorkDayNotify => null,
+        _ => null
+    };
 }
