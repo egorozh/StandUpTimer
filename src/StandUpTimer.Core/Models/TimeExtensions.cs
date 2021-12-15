@@ -53,7 +53,7 @@ public static class TimeExtensions
         else
             return new EndWorkDayNotify(settings.ToTime);
     }
-  
+
     private static Status GetWorkStatus(in TimeSpan from, in TimeSpan every, in TimeSpan stand, in TimeSpan now)
     {
         var deltaNow = now - from;
@@ -124,47 +124,29 @@ public static class TimeExtensions
 
     public static Day GetNextDay(Day settingsDays, Day nowDay)
     {
-        var days = (byte) settingsDays;
-        var nowDayV = (byte) nowDay;
-
         var nowIndex = 0;
-
-        for (var i = 0; i < 8; i++)
-        {
-            if (GetBit(nowDayV, i))
-            {
-                nowIndex = i;
-                break;
-            }
-        }
+        GetIndex((byte) nowDay, ref nowIndex);
 
         var nextDayIndex = nowIndex;
-        var flag = false;
+        var days = (byte) settingsDays;
 
-        for (int i = nowIndex + 1; i < 8; i++)
-        {
-            if (GetBit(days, i))
-            {
-                nextDayIndex = i;
-                flag = true;
-                break;
-            }
-        }
-
-        if (!flag)
-        {
-            for (byte i = 0; i < nowIndex; i++)
-            {
-                if (GetBit(days, i))
-                {
-                    nextDayIndex = i;
-                    break;
-                }
-            }
-        }
+        if (!GetIndex(days, ref nextDayIndex, nowIndex + 1))
+            GetIndex(days, ref nextDayIndex, 0, nowIndex);
 
         return (Day) Math.Pow(2, nextDayIndex);
 
-        static bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber)) != 0;
+        static bool GetIndex(in byte mask, ref int index, in int startIndex = 0, in int endIndex = 7)
+        {
+            for (var i = startIndex; i < endIndex; i++)
+            {
+                if ((mask & (1 << i)) != 0)
+                {
+                    index = i;
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
