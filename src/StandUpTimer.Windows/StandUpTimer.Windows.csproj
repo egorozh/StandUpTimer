@@ -19,11 +19,13 @@
 		<Content Include="Assets\Square150x150Logo.scale-200.png" />
 		<Content Include="Assets\Square44x44Logo.scale-200.png" />
 		<Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-		<Content Include="Assets\StoreLogo.png" />
 		<Content Include="Assets\Wide310x150Logo.scale-200.png" />
 		<Content Include="Assets\toSit.mp3" />
 		<Content Include="Assets\toStand.mp3" />
 		<Content Include="Assets\a_lcdnova.ttf" />
+		<Content Include="Assets\desk.ico" />
+		<Content Include="Assets\sit.png" />
+		<Content Include="Assets\stand.png" />
 	</ItemGroup>
 
 	<ItemGroup>

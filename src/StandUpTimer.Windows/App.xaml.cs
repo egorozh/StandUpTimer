@@ -40,6 +40,7 @@ public partial class App : Application
         builder.RegisterInstance(Log.Logger).As<ILogger>().SingleInstance();
 
         builder.RegisterType<WindowsNotifyService>().As<INotifyService>().SingleInstance();
+        builder.RegisterType<WindowsLaunchAtStartupService>().As<ILaunchAtStartupService>().SingleInstance();
         builder.RegisterType<JsonSettingsSerializer>().As<ISettingsSerializer>().SingleInstance();
         builder.RegisterType<WindowsSettingsStorage>().As<ISettingsStorage>().SingleInstance();
         builder.RegisterType<MainWindowViewModel>().AsSelf();
