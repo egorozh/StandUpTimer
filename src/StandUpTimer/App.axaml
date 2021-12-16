@@ -17,10 +17,10 @@
                             <StackPanel Margin="10">
                                 <TextBlock HorizontalAlignment="Center"
                                            Text="{Binding $parent[Slider].Tag}"
-                                           Foreground="White"/>
+                                           Foreground="White" />
                                 <TextBlock HorizontalAlignment="Center"
                                            Text="{Binding $parent[Slider].Value, StringFormat={}{0} мин}"
-                                           Foreground="White"/>
+                                           Foreground="White" />
                             </StackPanel>
                         </Border>
                     </ControlTemplate>
@@ -108,7 +108,7 @@
                                                 </RepeatButton>
                                             </Track.IncreaseButton>
                                             <Thumb Classes="SliderThumbStyle" Name="thumb" Margin="0" Padding="0"
-                                                   DataContext="{TemplateBinding Value}"/>
+                                                   DataContext="{TemplateBinding Value}" />
                                         </Track>
                                     </Grid>
                                 </Grid>
@@ -120,4 +120,22 @@
         </Style>
     </Application.Styles>
 
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Icon="Assets/desk.ico"
+                      ToolTipText="Щелкните, чтобы открыть окно параметров" 
+                      Command="{Binding OpenMainWindowCommand}">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Открыть окно"
+                                        Command="{Binding OpenMainWindowCommand}" />
+
+                        <NativeMenuItemSeparator />
+
+                        <NativeMenuItem Header="Выход" Command="{Binding ExitCommand}" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+        </TrayIcons>
+    </TrayIcon.Icons>
 </Application>

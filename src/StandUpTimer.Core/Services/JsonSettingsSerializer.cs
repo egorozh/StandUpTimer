@@ -13,21 +13,21 @@ public class JsonSettingsSerializer : ISettingsSerializer
         _logger = logger;
     }
 
-    public TimerSettings Deserialize(string serializedStroke)
+    public ApplicationSettings Deserialize(string serializedStroke)
     {
         try
         {
-            return JsonSerializer.Deserialize<TimerSettings>(serializedStroke) ?? new TimerSettings();
+            return JsonSerializer.Deserialize<ApplicationSettings>(serializedStroke) ?? new ApplicationSettings();
         }
         catch (Exception e)
         {
             _logger.Error(e, "JsonSettingsSerializer.Deserialize");
 
-            return new TimerSettings();
+            return new ApplicationSettings();
         }
     }
 
-    public string Serialize(TimerSettings settings)
+    public string Serialize(ApplicationSettings settings)
     {
         try
         {

@@ -24,7 +24,8 @@ internal class WindowsNotifyService : INotifyService
                 .AddArgument("action", "viewConversation")
                 .AddArgument("conversationId", 9813)
                 .AddText(notify.Title)
-                .AddText(notify.Message);
+                .AddText(notify.Message)
+                .AddInlineImage(GetImageUrl(notify)); 
 
             var audio = GetAudioUrl(notify);
 
@@ -41,6 +42,15 @@ internal class WindowsNotifyService : INotifyService
         EndWorkDayNotify => null,
         GoSitNotify => new Uri("ms-appx:///Assets/toSit.mp3"),
         GoStandUpNotify => new Uri("ms-appx:///Assets/toStand.mp3"),
+        StartWorkDayNotify => null,
+        _ => null
+    };
+
+    private static Uri? GetImageUrl(Notify notify) => notify switch
+    {
+        EndWorkDayNotify => null,
+        GoSitNotify => new Uri("ms-appx:///Assets/sit.png"),
+        GoStandUpNotify => new Uri("ms-appx:///Assets/stand.png"),
         StartWorkDayNotify => null,
         _ => null
     };

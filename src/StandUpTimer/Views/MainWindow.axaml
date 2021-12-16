@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StandUpTimer.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/desk.ico"
 
         Title="Stand Up Timer"
         Width="640" MinWidth="640"
@@ -12,10 +12,10 @@
         CanResize="False"
         WindowStartupLocation="CenterScreen">
 
-    <Grid RowDefinitions="Auto Auto *">
+    <Grid RowDefinitions="Auto Auto Auto *">
 
         <Grid Grid.Row="0"
-              RowDefinitions="Auto * *"
+              RowDefinitions="Auto * * Auto"
               ColumnDefinitions="Auto Auto *"
               Margin="14">
 
@@ -31,16 +31,24 @@
                         Header="по"
                         SelectedTime="{Binding ToTime}" />
 
-            <StackPanel Grid.Row="1" Grid.Column="2" Grid.RowSpan="2"
-                        Margin="14 0 0 0">
-                <StackPanel.Styles>
+            <ToggleSwitch Grid.Row="3" Grid.Column="0"
+                          OnContent="Запускать при старте"
+                          OffContent="Не запускать при старте"
+                          IsChecked="{Binding LaunchAtStartup}" />
+
+            <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
+                  Margin="14 0 0 0"
+                  RowDefinitions="* *">
+                <Grid.Styles>
                     <Style Selector="ToggleButton">
                         <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="VerticalAlignment" Value="Stretch" />
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="Padding" Value="14" />
                         <Setter Property="Margin" Value="2 0 2 2" />
                     </Style>
-                </StackPanel.Styles>
+                </Grid.Styles>
 
                 <UniformGrid Columns="5" Rows="1">
                     <ToggleButton Content="Пн"
@@ -54,7 +62,7 @@
                     <ToggleButton Content="Пн"
                                   IsChecked="{Binding IsFriday}" />
                 </UniformGrid>
-                <UniformGrid Columns="2" Rows="1">
+                <UniformGrid Grid.Row="1" Columns="2" Rows="1">
                     <ToggleButton Content="Сб"
                                   Margin="2 2 2 0"
                                   IsChecked="{Binding IsSaturday}" />
@@ -63,16 +71,16 @@
                                   IsChecked="{Binding IsSunday}" />
                 </UniformGrid>
 
-            </StackPanel>
+            </Grid>
 
         </Grid>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="2"
+                    Margin="14 0">
 
             <!--Every Period-->
             <Slider Minimum="5"
                     Maximum="120"
-                    Margin="14 0"
                     Tag="Сидя:"
                     IsSnapToTickEnabled="True"
                     TickFrequency="5"
@@ -82,13 +90,12 @@
             <Slider Minimum="0"
                     Maximum="60"
                     Tag="Стоя:"
-                    Margin="14 0"
                     IsSnapToTickEnabled="True"
                     Ticks="0,1,2,3,4,5,10,15,20,25,30,35,40,45,50,55,60"
                     Value="{Binding StandTime}" />
         </StackPanel>
 
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="3"
                    Text="{Binding Message}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
@@ -96,6 +103,7 @@
                    FontSize="42"
                    TextWrapping="Wrap"
                    FontFamily="avares://StandUpTimer/Assets/a_lcdnova.ttf#a_LCDNova" />
+
     </Grid>
 
 </Window>

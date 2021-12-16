@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using Windows.Storage;
-using Serilog;
+﻿using Serilog;
 using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
+using System;
+using System.IO;
+using Windows.Storage;
 
 namespace StandUpTimer.Services;
 
@@ -24,15 +24,15 @@ internal class WindowsSettingsStorage : ISettingsStorage
         _settingsPath = Path.Combine(folder.Path, SettingsFileName);
     }
 
-    public TimerSettings GetSettings()
+    public ApplicationSettings GetSettings()
     {
        
         return File.Exists(_settingsPath)
             ? _settingsSerializer.Deserialize(File.ReadAllText(_settingsPath))
-            : new TimerSettings();
+            : new ApplicationSettings();
     }
 
-    public void SetSettings(TimerSettings settings)
+    public void SetSettings(ApplicationSettings settings)
     {
         try
         {

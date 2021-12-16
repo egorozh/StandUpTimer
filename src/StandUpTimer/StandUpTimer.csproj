@@ -3,24 +3,27 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFrameworks>net6.0;net6.0-windows10.0.17763.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
+		<ApplicationIcon>Assets\desk.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
-		<AvaloniaResource Remove="Assets\toSit.mp3" />
-		<AvaloniaResource Remove="Assets\toStand.mp3" />
-		<None Remove=".gitignore" />
+		<AvaloniaResource Remove="Assets\sit.png" />
+		<AvaloniaResource Remove="Assets\stand.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Avalonia" Version="0.10.10" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
-		<PackageReference Condition=" '$(TargetFramework)' != 'net6.0-windows10.0.17763.0' " Include="MessageBox.Avalonia" Version="1.7.1" />
-		<PackageReference Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' " Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+		<PackageReference Condition=" '$(TargetFramework)' != 'net6.0-windows10.0.17763.0' " Include="MessageBox.Avalonia"
+		                  Version="1.7.1" />
+		<PackageReference Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' "
+		                  Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,8 +31,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Assets\toSit.mp3" />
-		<Content Include="Assets\toStand.mp3" />
+		<Content Include="Assets\desk.ico" />
+		<Content Include="Assets\sit.png" />
+		<Content Include="Assets\stand.png" />
 	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' ">

@@ -4,7 +4,7 @@ namespace StandUpTimer.Core.Services;
 
 public interface ISettingsStorage
 {
-    TimerSettings GetSettings();
+    ApplicationSettings GetSettings();
 
-    void SetSettings(TimerSettings settings);
+    void SetSettings(ApplicationSettings settings);
 }

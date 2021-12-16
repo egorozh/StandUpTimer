@@ -19,14 +19,14 @@ internal class WindowsSettingsStorage : ISettingsStorage
         _logger = logger;
     }
 
-    public TimerSettings GetSettings()
+    public ApplicationSettings GetSettings()
     {
         return File.Exists(SettingsFileName)
             ? _settingsSerializer.Deserialize(File.ReadAllText(SettingsFileName))
-            : new TimerSettings();
+            : new ApplicationSettings();
     }
 
-    public void SetSettings(TimerSettings settings)
+    public void SetSettings(ApplicationSettings settings)
     {
         try
         {

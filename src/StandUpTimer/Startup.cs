@@ -27,7 +27,8 @@ internal class Startup
         {
             builder.RegisterType<DefaultNotifyService>().As<INotifyService>().SingleInstance();
         }
-        
+
+        builder.RegisterType<WindowsLaunchAtStartupService>().As<ILaunchAtStartupService>().SingleInstance();
         builder.RegisterType<JsonSettingsSerializer>().As<ISettingsSerializer>().SingleInstance();
         builder.RegisterType<WindowsSettingsStorage>().As<ISettingsStorage>().SingleInstance();
         builder.RegisterType<MainWindowViewModel>().AsSelf();

@@ -1,5 +1,6 @@
 using Autofac;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using StandUpTimer.Core.ViewModels;
@@ -9,6 +10,14 @@ namespace StandUpTimer;
 
 public class App : Application
 {
+    private readonly IContainer _host;
+
+    public App()
+    {
+        _host = Startup.GetHost();
+        DataContext = new ApplicationViewModel(_host);
+    }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -18,9 +27,11 @@ public class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             desktop.MainWindow = new MainWindow
             {
-                DataContext = Startup.GetHost().Resolve<MainWindowViewModel>(),
+                DataContext = _host.Resolve<MainWindowViewModel>(),
             };
         }
 

@@ -22,7 +22,6 @@ internal class StandTimer
 
         if (_closestNotify != null)
         {
-            
             var now = DateTime.Now;
 
             double delta;
@@ -34,18 +33,19 @@ internal class StandTimer
 
             //var delta = 1000;
 
-            _timer = new Timer(delta);
-            _timer.Elapsed += TimerOnElapsed;
-            _timer.Start();
+            if (delta > 0)
+            {
+                _timer = new Timer(delta);
+                _timer.Elapsed += TimerOnElapsed;
+                _timer.Start();
+            }
         }
     }
 
     private void TimerOnElapsed(object? sender, ElapsedEventArgs e)
     {
-        if (_closestNotify != null)
-        {
+        if (_closestNotify != null) 
             Notify?.Invoke(_closestNotify);
-        }
     }
 
     private void DisposeTimer()

@@ -7,10 +7,16 @@ namespace StandUpTimer.Core.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    #region Private Fields
+
     private readonly INotifyService _notifyService;
     private readonly ISettingsStorage _settingsStorage;
+    private readonly ILaunchAtStartupService _startupService;
     private readonly StandTimer _standTimer;
 
+    #endregion
+
+    #region Public Properties
 
     public string? Message { get; set; }
 
@@ -36,17 +42,29 @@ public class MainWindowViewModel : ViewModelBase
     /// </summary>
     public int StandTime { get; set; }
 
-    public MainWindowViewModel(INotifyService notifyService, ISettingsStorage settingsStorage)
+    public bool LaunchAtStartup { get; set; }
+
+    #endregion
+
+    #region Constructor
+
+    public MainWindowViewModel(INotifyService notifyService, ISettingsStorage settingsStorage,
+        ILaunchAtStartupService startupService)
     {
         _notifyService = notifyService;
         _settingsStorage = settingsStorage;
+        _startupService = startupService;
 
-        var timerSettings = _settingsStorage.GetSettings();
+        var appSettings = _settingsStorage.GetSettings();
+
+        var timerSettings = appSettings.TimerSettings;
 
         FromTime = timerSettings.FromTime;
         ToTime = timerSettings.ToTime;
         EveryPeriod = timerSettings.EveryPeriod.Minutes;
         StandTime = timerSettings.StandTime.Minutes;
+
+        LaunchAtStartup = appSettings.LaunchAtStartup;
 
         SetActiveDays(timerSettings.Day);
 
@@ -59,39 +77,9 @@ public class MainWindowViewModel : ViewModelBase
         PropertyChanged += MainViewModelPropertyChanged;
     }
 
-    private async void StandTimerOnNotify(Notify notify)
-    {
-        await _notifyService.Notify(notify);
+    #endregion
 
-        await Task.Delay(1000);
-
-        var settings = GetSettings();
-
-        _standTimer.Start(settings);
-    }
-
-    private void StandTimerOnStatusChanged(Status status)
-    {
-        Message = status.ToString();
-    }
-
-    private void MainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        var settings = GetSettings();
-
-        _settingsStorage.SetSettings(settings);
-
-        _standTimer.Start(settings);
-    }
-
-    private TimerSettings GetSettings() => new()
-    {
-        Day = GetActiveDays(),
-        FromTime = FromTime,
-        ToTime = ToTime,
-        EveryPeriod = new TimeSpan(0, EveryPeriod, 0),
-        StandTime = new TimeSpan(0, StandTime, 0),
-    };
+    #region Private Methods
 
     private Day GetActiveDays()
     {
@@ -125,4 +113,50 @@ public class MainWindowViewModel : ViewModelBase
         IsSaturday = day.HasFlag(Day.Saturday);
         IsSunday = day.HasFlag(Day.Sunday);
     }
+
+    private void MainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Message))
+            return;
+
+        var settings = GetSettings();
+
+        _settingsStorage.SetSettings(new ApplicationSettings
+        {
+            LaunchAtStartup = LaunchAtStartup,
+            TimerSettings = settings
+        });
+
+        if (e.PropertyName == nameof(LaunchAtStartup))
+            _startupService.AddOrRemoveApplicationToStartup(LaunchAtStartup);
+        else
+            _standTimer.Start(settings);
+    }
+
+    private TimerSettings GetSettings() => new()
+    {
+        Day = GetActiveDays(),
+        FromTime = FromTime,
+        ToTime = ToTime,
+        EveryPeriod = new TimeSpan(0, EveryPeriod, 0),
+        StandTime = new TimeSpan(0, StandTime, 0),
+    };
+
+    private async void StandTimerOnNotify(Notify notify)
+    {
+        await _notifyService.Notify(notify);
+
+        await Task.Delay(1000);
+
+        var settings = GetSettings();
+
+        _standTimer.Start(settings);
+    }
+
+    private void StandTimerOnStatusChanged(Status status)
+    {
+        Message = status.ToString();
+    }
+
+    #endregion
 }

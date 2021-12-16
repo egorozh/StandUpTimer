@@ -4,7 +4,7 @@ namespace StandUpTimer.Core.Services;
 
 public interface ISettingsSerializer
 {
-    TimerSettings Deserialize(string serializedStroke);
+    ApplicationSettings Deserialize(string serializedStroke);
         
-    string Serialize(TimerSettings settings);    
+    string Serialize(ApplicationSettings settings);    
 }
