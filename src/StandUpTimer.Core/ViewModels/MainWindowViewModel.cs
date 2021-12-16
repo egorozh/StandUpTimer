@@ -2,6 +2,7 @@
 using StandUpTimer.Core.Services;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace StandUpTimer.Core.ViewModels;
 
@@ -13,6 +14,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly ISettingsStorage _settingsStorage;
     private readonly ILaunchAtStartupService _startupService;
     private readonly StandTimer _standTimer;
+    private readonly ILogger _logger;
 
     #endregion
 
@@ -49,11 +51,13 @@ public class MainWindowViewModel : ViewModelBase
     #region Constructor
 
     public MainWindowViewModel(INotifyService notifyService, ISettingsStorage settingsStorage,
-        ILaunchAtStartupService startupService)
+        ILaunchAtStartupService startupService, StandTimer standTimer, ILogger logger)
     {
         _notifyService = notifyService;
         _settingsStorage = settingsStorage;
         _startupService = startupService;
+        _standTimer = standTimer;
+        _logger = logger;
 
         var appSettings = _settingsStorage.GetSettings();
 
@@ -67,9 +71,7 @@ public class MainWindowViewModel : ViewModelBase
         LaunchAtStartup = appSettings.LaunchAtStartup;
 
         SetActiveDays(timerSettings.Day);
-
-        _standTimer = new StandTimer();
-
+        
         _standTimer.StatusChanged += StandTimerOnStatusChanged;
         _standTimer.Notify += StandTimerOnNotify;
         _standTimer.Start(timerSettings);
@@ -116,6 +118,8 @@ public class MainWindowViewModel : ViewModelBase
 
     private void MainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        _logger.Information($"MainWindowViewModel.MainViewModelPropertyChanged(): propertyName: {e.PropertyName}");
+
         if (e.PropertyName == nameof(Message))
             return;
 

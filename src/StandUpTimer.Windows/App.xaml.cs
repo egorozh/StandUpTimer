@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Microsoft.UI.Xaml;
 using Serilog;
+using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 using StandUpTimer.Core.ViewModels;
 using StandUpTimer.Services;
@@ -43,6 +44,7 @@ public partial class App : Application
         builder.RegisterType<WindowsLaunchAtStartupService>().As<ILaunchAtStartupService>().SingleInstance();
         builder.RegisterType<JsonSettingsSerializer>().As<ISettingsSerializer>().SingleInstance();
         builder.RegisterType<WindowsSettingsStorage>().As<ISettingsStorage>().SingleInstance();
+        builder.RegisterType<StandTimer>().AsSelf().SingleInstance();
         builder.RegisterType<MainWindowViewModel>().AsSelf();
         var host = builder.Build();
 
