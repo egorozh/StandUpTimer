@@ -1,26 +1,49 @@
-﻿using System.Timers;
-using Serilog;
+﻿using Serilog;
+using StandUpTimer.Core.Services;
+using System.Threading.Tasks;
+using System.Timers;
 
 namespace StandUpTimer.Core.Models;
 
 public class StandTimer
 {
+    #region Private Fields
+
     private readonly ILogger _logger;
-    private Timer? _timer;
+    private readonly INotifyService _notifyService;
+    private readonly Timer _timer;
+
     private Notify? _closestNotify;
+    private TimerSettings? _settings;
+
+    #endregion
+
+    #region Events
 
     public event Action<Status>? StatusChanged;
-    public event Action<Notify>? Notify;
 
-    public StandTimer(ILogger logger)
+    #endregion
+
+    #region Constructor
+
+    public StandTimer(INotifyService notifyService, ILogger logger)
     {
         _logger = logger;
+        _notifyService = notifyService;
+        _timer = new Timer();
+        _timer.Elapsed += TimerOnElapsed;
     }
+
+    #endregion
+
+    #region Public Methods
 
     public void Start(TimerSettings settings)
     {
-        DisposeTimer();
+        if (_timer.Enabled)
+            _timer.Stop();
 
+        _settings = settings;
         var status = settings.GetNowStatus();
 
         StatusChanged?.Invoke(status);
@@ -42,46 +65,58 @@ public class StandTimer
             _logger.Information($"StandTimer.Start: _closestNotify: {_closestNotify},{_closestNotify.Time}");
             _logger.Information($"StandTimer.Start: delta: {delta}, now: {now.ToLongTimeString()}");
 
-            if (delta > 0) 
+            if (delta > 0)
                 StartTimer(delta);
         }
     }
 
+    #endregion
+
+    #region Private Methods
+
     private void StartTimer(double delta)
     {
         _logger.Information($"StandTimer.StartTimer: delta: {delta}");
-        _timer = new Timer(delta);
-        _timer.Elapsed += TimerOnElapsed;
-        _timer.Start();
+
+        try
+        {
+            _timer.Interval = delta;
+            _timer.Start();
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "StandTimer.StartTimer");
+        }
     }
 
-    private void TimerOnElapsed(object? sender, ElapsedEventArgs e)
+    private async void TimerOnElapsed(object? sender, ElapsedEventArgs e)
     {
         _logger.Information($"StandTimer.TimerOnElapsed: {e.SignalTime.ToLongTimeString()}");
-        
+
         if (_closestNotify != null)
         {
             _logger.Information($"StandTimer.TimerOnElapsed: _closestNotify: {_closestNotify},{_closestNotify.Time}");
-            Notify?.Invoke(_closestNotify);
-        }
-    }
-
-    private void DisposeTimer()
-    {
-        _logger.Information("StandTimer.DisposeTimer() is calc");
-
-        if (_timer != null)
-        {
-            _timer.Elapsed -= TimerOnElapsed;
 
             try
             {
-                _timer.Dispose();
+                await StandTimerOnNotify(_closestNotify);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _logger.Error(e, "StandTimer.DisposeTimer");
+                _logger.Error(ex, "StandTimer.TimerOnElapsed");
             }
         }
     }
+
+    private async Task StandTimerOnNotify(Notify notify)
+    {
+        await _notifyService.Notify(notify);
+
+        await Task.Delay(1000);
+
+        if (_settings != null)
+            Start(_settings);
+    }
+
+    #endregion
 }

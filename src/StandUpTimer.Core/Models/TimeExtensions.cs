@@ -127,6 +127,9 @@ public static class TimeExtensions
         var nowIndex = 0;
         GetIndex((byte) nowDay, ref nowIndex);
 
+        // or
+        //nowIndex = (int) Math.Log2((double) nowDay);
+
         var nextDayIndex = nowIndex;
         var days = (byte) settingsDays;
 

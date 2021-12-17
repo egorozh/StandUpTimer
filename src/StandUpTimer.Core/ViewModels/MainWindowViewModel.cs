@@ -1,16 +1,14 @@
-﻿using StandUpTimer.Core.Models;
+﻿using Serilog;
+using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 using System.ComponentModel;
-using System.Threading.Tasks;
-using Serilog;
 
 namespace StandUpTimer.Core.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase, IDisposable
 {
     #region Private Fields
 
-    private readonly INotifyService _notifyService;
     private readonly ISettingsStorage _settingsStorage;
     private readonly ILaunchAtStartupService _startupService;
     private readonly StandTimer _standTimer;
@@ -50,10 +48,9 @@ public class MainWindowViewModel : ViewModelBase
 
     #region Constructor
 
-    public MainWindowViewModel(INotifyService notifyService, ISettingsStorage settingsStorage,
+    public MainWindowViewModel(ISettingsStorage settingsStorage,
         ILaunchAtStartupService startupService, StandTimer standTimer, ILogger logger)
     {
-        _notifyService = notifyService;
         _settingsStorage = settingsStorage;
         _startupService = startupService;
         _standTimer = standTimer;
@@ -71,9 +68,8 @@ public class MainWindowViewModel : ViewModelBase
         LaunchAtStartup = appSettings.LaunchAtStartup;
 
         SetActiveDays(timerSettings.Day);
-        
+
         _standTimer.StatusChanged += StandTimerOnStatusChanged;
-        _standTimer.Notify += StandTimerOnNotify;
         _standTimer.Start(timerSettings);
 
         PropertyChanged += MainViewModelPropertyChanged;
@@ -81,6 +77,16 @@ public class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region Public Methods
+
+    public void Dispose()
+    {
+        _standTimer.StatusChanged -= StandTimerOnStatusChanged;
+        PropertyChanged -= MainViewModelPropertyChanged;
+    }
+
+    #endregion
+    
     #region Private Methods
 
     private Day GetActiveDays()
@@ -145,17 +151,6 @@ public class MainWindowViewModel : ViewModelBase
         EveryPeriod = new TimeSpan(0, EveryPeriod, 0),
         StandTime = new TimeSpan(0, StandTime, 0),
     };
-
-    private async void StandTimerOnNotify(Notify notify)
-    {
-        await _notifyService.Notify(notify);
-
-        await Task.Delay(1000);
-
-        var settings = GetSettings();
-
-        _standTimer.Start(settings);
-    }
 
     private void StandTimerOnStatusChanged(Status status)
     {
