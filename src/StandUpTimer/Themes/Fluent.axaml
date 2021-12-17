@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:valueConverters="clr-namespace:StandUpTimer.ValueConverters">
 
     <FluentTheme Mode="Dark" />
 
@@ -9,16 +10,16 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{DynamicResource ControlCornerRadius}">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource ControlCornerRadius}">
                         <StackPanel Margin="10">
                             <TextBlock HorizontalAlignment="Center"
-                                           Text="{Binding $parent[Slider].Tag}"
-                                           Foreground="White" />
+                                       Text="{Binding $parent[Slider].Tag}"
+                                       Foreground="White" />
                             <TextBlock HorizontalAlignment="Center"
-                                           Text="{Binding $parent[Slider].Value, StringFormat={}{0} мин}"
-                                           Foreground="White" />
+                                       Text="{Binding $parent[Slider].Value, Converter={valueConverters:MinuteFormatConverter}}"
+                                       Foreground="White" />
                         </StackPanel>
                     </Border>
                 </ControlTemplate>
@@ -42,21 +43,21 @@
             <ControlTemplate>
                 <DataValidationErrors>
                     <Border BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                Background="{TemplateBinding Background}">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Background="{TemplateBinding Background}">
                         <Grid Name="grid" Margin="{TemplateBinding Padding}" RowDefinitions="Auto, *">
 
                             <Grid x:Name="SliderContainer" Grid.Row="1">
-                                <Grid x:Name="HorizontalTemplate" 
-                                          ColumnDefinitions="Auto,Auto,*"
-                                          MinHeight="{DynamicResource SliderHorizontalHeight}">
+                                <Grid x:Name="HorizontalTemplate"
+                                      ColumnDefinitions="Auto,Auto,*"
+                                      MinHeight="{DynamicResource SliderHorizontalHeight}">
 
-                                    <Track Name="PART_Track"  Grid.ColumnSpan="3"
-                                               IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
-                                               Orientation="Horizontal">
+                                    <Track Name="PART_Track" Grid.ColumnSpan="3"
+                                           IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
+                                           Orientation="Horizontal">
                                         <Thumb Classes="SliderThumbStyle" Name="thumb" Margin="0" Padding="0"
-                                                   DataContext="{TemplateBinding Value}" />
+                                               DataContext="{TemplateBinding Value}" />
                                     </Track>
                                 </Grid>
                             </Grid>

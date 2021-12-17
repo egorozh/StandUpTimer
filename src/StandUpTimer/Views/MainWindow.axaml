@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:loc="clr-namespace:StandUpTimer.Localization;assembly=StandUpTimer.Localization"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="StandUpTimer.Views.MainWindow"
         Icon="/Assets/desk.ico"
@@ -26,20 +27,20 @@
               Margin="14">
 
             <TextBlock Grid.Row="0" Grid.Column="0"
-                       Text="Время работы таймера:" />
+                       Text="{x:Static loc:LocalizationResources.TimerRunningTime}" />
 
             <TimePicker Grid.Row="1" Grid.Column="0"
                         MinuteIncrement="15"
-                        Header="с"
+                        Header="{x:Static loc:LocalizationResources.FromTime}"
                         SelectedTime="{Binding FromTime}" />
             <TimePicker Grid.Row="2" Grid.Column="0"
                         MinuteIncrement="15"
-                        Header="по"
+                        Header="{x:Static loc:LocalizationResources.ToTime}"
                         SelectedTime="{Binding ToTime}" />
 
             <ToggleSwitch Grid.Row="3" Grid.Column="0"
-                          OnContent="Запускать при старте"
-                          OffContent="Не запускать при старте"
+                          OnContent="{x:Static loc:LocalizationResources.LaunchAtStartup}"
+                          OffContent="{x:Static loc:LocalizationResources.DontLaunchAtStartup}"
                           IsChecked="{Binding LaunchAtStartup}" />
 
             <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
@@ -57,22 +58,22 @@
                 </Grid.Styles>
 
                 <UniformGrid Columns="5" Rows="1">
-                    <ToggleButton Content="Пн"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Monday}"
                                   IsChecked="{Binding IsMonday}" />
-                    <ToggleButton Content="Вт"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Tuesday}"
                                   IsChecked="{Binding IsTuesday}" />
-                    <ToggleButton Content="Ср"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Wednesday}"
                                   IsChecked="{Binding IsWednesday}" />
-                    <ToggleButton Content="Чт"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Thursday}"
                                   IsChecked="{Binding IsThursday}" />
-                    <ToggleButton Content="Пн"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Friday}"
                                   IsChecked="{Binding IsFriday}" />
                 </UniformGrid>
                 <UniformGrid Grid.Row="1" Columns="2" Rows="1">
-                    <ToggleButton Content="Сб"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Saturday}"
                                   Margin="2 2 2 0"
                                   IsChecked="{Binding IsSaturday}" />
-                    <ToggleButton Content="Вс"
+                    <ToggleButton Content="{x:Static loc:LocalizationResources.Sunday}"
                                   Margin="2 2 2 0"
                                   IsChecked="{Binding IsSunday}" />
                 </UniformGrid>
@@ -94,7 +95,7 @@
                         Name="Slider"
                         Minimum="5"
                         Maximum="120"
-                        Tag="Сидя:"
+                        Tag="{x:Static loc:LocalizationResources.Sitting}"
                         IsSnapToTickEnabled="True"
                         TickFrequency="5"
                         Value="{Binding EveryPeriod}" />
@@ -110,7 +111,7 @@
                         Minimum="0"
                         Name="Slider2"
                         Maximum="60"
-                        Tag="Стоя:"
+                        Tag="{x:Static loc:LocalizationResources.StandingUp}"
                         IsSnapToTickEnabled="True"
                         Ticks="0,1,2,3,4,5,10,15,20,25,30,35,40,45,50,55,60"
                         Value="{Binding StandTime}" />

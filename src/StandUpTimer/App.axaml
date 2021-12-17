@@ -1,5 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:loc="clr-namespace:StandUpTimer.Localization;assembly=StandUpTimer.Localization"
              x:Class="StandUpTimer.App">
 
 
@@ -10,16 +11,17 @@
     <TrayIcon.Icons>
         <TrayIcons>
             <TrayIcon Icon="Assets/desk.ico"
-                      ToolTipText="Щелкните, чтобы открыть окно параметров"
+                      ToolTipText="{x:Static loc:LocalizationResources.TrayIconToolTip}"
                       Command="{Binding OpenMainWindowCommand}">
                 <TrayIcon.Menu>
                     <NativeMenu>
-                        <NativeMenuItem Header="Открыть окно"
+                        <NativeMenuItem Header="{x:Static loc:LocalizationResources.TrayIcon_OpenWindow}"
                                         Command="{Binding OpenMainWindowCommand}" />
 
                         <NativeMenuItemSeparator />
 
-                        <NativeMenuItem Header="Выход" Command="{Binding ExitCommand}" />
+                        <NativeMenuItem Header="{x:Static loc:LocalizationResources.TrayIcon_Exit}" 
+                                        Command="{Binding ExitCommand}" />
                     </NativeMenu>
                 </TrayIcon.Menu>
             </TrayIcon>

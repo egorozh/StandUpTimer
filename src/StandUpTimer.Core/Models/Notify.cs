@@ -1,16 +1,17 @@
-﻿namespace StandUpTimer.Core.Models;
+﻿using StandUpTimer.Localization;
+
+namespace StandUpTimer.Core.Models;
 
 public abstract class Notify
 {
     public virtual string Message => string.Empty;
-    public virtual string Title => string.Empty;
+    public virtual string Title => LocalizationResources.Notify_Reminder;
     public TimeSpan Time { get; protected set; }
 }
 
 public class GoStandUpNotify : Notify
 {
-    public override string Message => "Пора вставать на ноги!";
-    public override string Title => "Напоминание";
+    public override string Message => LocalizationResources.Notify_GoStandUpNotify;
 
     public GoStandUpNotify(TimeSpan time)
     {
@@ -20,9 +21,8 @@ public class GoStandUpNotify : Notify
 
 public class GoSitNotify : Notify
 {
-    public override string Message => "Можно садиться!";
-    public override string Title => "Напоминание";
-
+    public override string Message => LocalizationResources.Notify_GoSitNotify;
+    
     public GoSitNotify(TimeSpan time)
     {
         Time = time;
@@ -31,9 +31,8 @@ public class GoSitNotify : Notify
 
 public class EndWorkDayNotify : Notify
 {
-    public override string Message => "Конец рабочего дня. Время расслабиться!)";
-    public override string Title => "Напоминание";
-
+    public override string Message => LocalizationResources.Notify_EndWorkDayNotify;
+   
     public EndWorkDayNotify(TimeSpan time)
     {
         Time = time;
@@ -42,9 +41,8 @@ public class EndWorkDayNotify : Notify
 
 public class StartWorkDayNotify : Notify
 {
-    public override string Message => "Начало рабочего дня!)";
-    public override string Title => "Напоминание";
-
+    public override string Message => LocalizationResources.Notify_StartWorkDayNotify;
+   
     public DateTime DateTime { get; }
 
     public StartWorkDayNotify(DateTime time)

@@ -1,4 +1,6 @@
-﻿namespace StandUpTimer.Core.Models;
+﻿using StandUpTimer.Localization;
+
+namespace StandUpTimer.Core.Models;
 
 public abstract class Status
 {
@@ -13,7 +15,7 @@ internal class SittingPeriodStatus : Status
         SitTo = sitTo;
     }
 
-    public override string ToString() => $"Сейчас время сидеть. Конец периода в {SitTo}";
+    public override string ToString() => $"{LocalizationResources.Status_SittingPeriodStatus} {SitTo}";
 }
 
 internal class StandUpPeriodStatus : Status
@@ -25,7 +27,7 @@ internal class StandUpPeriodStatus : Status
         StandTo = standTo;
     }
 
-    public override string ToString() => $"Сейчас время стоять. Конец периода в {StandTo}";
+    public override string ToString() => $"{LocalizationResources.Status_StandUpPeriodStatus} {StandTo}";
 }
 
 internal class WorkingNextDayStatus : Status
@@ -37,19 +39,19 @@ internal class WorkingNextDayStatus : Status
         NextStartTime = nextStartTime;
     }
     
-    public override string ToString() => $"Таймер включится {OfDay(NextStartTime.DayOfWeek)} " +
-                                         $"({NextStartTime.ToShortDateString()}) в " +
+    public override string ToString() => $"{LocalizationResources.Status_TimerWillStart} {OfDay(NextStartTime.DayOfWeek)} " +
+                                         $"({NextStartTime.ToShortDateString()}) {LocalizationResources.Status_At} " +
                                          $"{NextStartTime.ToShortTimeString()}";
 
     private static string OfDay(DayOfWeek day) => day switch
     {
-        DayOfWeek.Sunday => "в воскресенье",
-        DayOfWeek.Monday => "в понедельник",
-        DayOfWeek.Tuesday => "во вторник",
-        DayOfWeek.Wednesday => "в среду",
-        DayOfWeek.Thursday => "в четверг",
-        DayOfWeek.Friday => "в пятницу",
-        DayOfWeek.Saturday => "в субботу",
+        DayOfWeek.Sunday => LocalizationResources.Status_OnSunday,
+        DayOfWeek.Monday => LocalizationResources.Status_OnMonday,
+        DayOfWeek.Tuesday => LocalizationResources.Status_OnTuesday,
+        DayOfWeek.Wednesday => LocalizationResources.Status_OnWednesday,
+        DayOfWeek.Thursday => LocalizationResources.Status_OnThursday,
+        DayOfWeek.Friday => LocalizationResources.Status_OnFriday,
+        DayOfWeek.Saturday => LocalizationResources.Status_OnSaturday,
         _ => throw new ArgumentOutOfRangeException(nameof(day), day, null)
     };
 
@@ -57,10 +59,10 @@ internal class WorkingNextDayStatus : Status
 
 internal class TimerNotWorkingStatus : Status
 {
-    public override string ToString() => "Таймер выключен";
+    public override string ToString() => LocalizationResources.Status_TimerNotWorkingStatus;
 }
 
 internal class AllDaysUnsettedStatus : Status
 {
-    public override string ToString() => "Не выбран ни один день работы таймера";
+    public override string ToString() => LocalizationResources.Status_AllDaysUnsettedStatus;
 }

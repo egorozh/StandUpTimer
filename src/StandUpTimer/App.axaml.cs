@@ -1,3 +1,4 @@
+using System.Globalization;
 using Autofac;
 using Avalonia;
 using Avalonia.Controls;
@@ -14,6 +15,8 @@ public class App : Application
 
     public App()
     {
+        CultureInfo.CurrentCulture = new CultureInfo("en-us");
+        CultureInfo.CurrentUICulture = new CultureInfo("en-us");
         _host = Startup.GetHost();
         DataContext = new ApplicationViewModel(_host);
     }
