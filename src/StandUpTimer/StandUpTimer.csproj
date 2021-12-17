@@ -7,9 +7,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
-		<AvaloniaResource Remove="Assets\sit.png" />
-		<AvaloniaResource Remove="Assets\stand.png" />
 	</ItemGroup>
+	
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Avalonia" Version="0.10.10" />
@@ -19,10 +18,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Condition=" '$(TargetFramework)' != 'net6.0-windows10.0.17763.0' " Include="MessageBox.Avalonia"
-		                  Version="1.7.1" />
-		<PackageReference Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' "
-		                  Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+		<PackageReference Condition=" '$(TargetFramework)' != 'net6.0-windows10.0.17763.0' " Include="MessageBox.Avalonia" Version="1.7.1" />
+		<PackageReference Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' " Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -33,6 +30,18 @@
 		<Content Include="Assets\desk.ico" />
 		<Content Include="Assets\sit.png" />
 		<Content Include="Assets\stand.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Include="Themes\Fluent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Themes\Fluent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0-windows10.0.17763.0' ">
