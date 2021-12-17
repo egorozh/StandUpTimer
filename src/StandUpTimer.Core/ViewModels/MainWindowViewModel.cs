@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace StandUpTimer.Core.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase, IDisposable
+public class MainWindowViewModel : BaseViewModel, IDisposable
 {
     #region Private Fields
 

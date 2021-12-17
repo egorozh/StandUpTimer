@@ -1,15 +1,16 @@
-﻿using System.ComponentModel;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Serilog;
+using StandUpTimer.Core.Services;
+using System;
 
-namespace StandUpTimer.Core.Services;
+namespace StandUpTimer.Services;
 
-public class WindowsLaunchAtStartupService : ILaunchAtStartupService
+internal class WindowsLaunchAtStartupService : ILaunchAtStartupService
 {
     #region Private Fields
 
     private const string RegistryStartupKey = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-    private const string AppName = "X-Filer";
+    private const string AppName = "StandUpTimer";
 
     private readonly ILogger _logger;
     private readonly string _appPath;
@@ -45,13 +46,7 @@ public class WindowsLaunchAtStartupService : ILaunchAtStartupService
     #endregion
 
     #region Private Methods
-
-    private void ReactiveOptionsOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-       
-    }
-
-
+    
     private static void SetStartup(ILogger logger, string appName, string appPath, bool enable)
     {
         try

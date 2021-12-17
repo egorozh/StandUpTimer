@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace StandUpTimer.Core.ViewModels;
 
-public class ViewModelBase : INotifyPropertyChanged
+public class BaseViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

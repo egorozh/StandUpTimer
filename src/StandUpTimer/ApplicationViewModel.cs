@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Autofac;
 using Avalonia;
 using Avalonia.Controls;
@@ -11,7 +10,7 @@ using IContainer = Autofac.IContainer;
 
 namespace StandUpTimer;
 
-public class ApplicationViewModel : ViewModelBase
+public class ApplicationViewModel : BaseViewModel
 {
     private readonly IContainer _host;
 

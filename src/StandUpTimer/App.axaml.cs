@@ -18,10 +18,7 @@ public class App : Application
         DataContext = new ApplicationViewModel(_host);
     }
 
-    public override void Initialize()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
     public override void OnFrameworkInitializationCompleted()
     {
