@@ -22,12 +22,8 @@ internal class Startup
 
             return Log.Logger;
         }).As<ILogger>().SingleInstance();
-
-#if WIN10
+        
         builder.RegisterType<WindowsNotifyService>().As<INotifyService>().SingleInstance();
-#else
-        builder.RegisterType<DefaultNotifyService>().As<INotifyService>().SingleInstance();
-#endif
         builder.RegisterType<WindowsLaunchAtStartupService>().As<ILaunchAtStartupService>().SingleInstance();
         builder.RegisterType<JsonSettingsSerializer>().As<ISettingsSerializer>().SingleInstance();
         builder.RegisterType<WindowsStorage>().As<IStorage>().SingleInstance();

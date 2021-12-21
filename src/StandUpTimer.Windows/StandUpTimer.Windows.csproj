@@ -31,8 +31,10 @@
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.8.0-prerelease.210927001" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22523-preview" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
