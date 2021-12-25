@@ -151,7 +151,7 @@ namespace StandUpTimer.Localization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на The begining of the work day!.
         /// </summary>
         public static string Notify_StartWorkDayNotify {
             get {
