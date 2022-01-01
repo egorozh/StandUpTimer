@@ -13,7 +13,7 @@
         CanResize="True"
         WindowStartupLocation="CenterScreen"
 
-        TransparencyLevelHint="Blur"
+        TransparencyLevelHint="Mica"
         ExtendClientAreaToDecorationsHint="True"
 
         Background="#AA000000">
