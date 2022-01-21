@@ -16,7 +16,7 @@
         TransparencyLevelHint="Mica"
         ExtendClientAreaToDecorationsHint="True"
 
-        Background="#AA000000">
+        Background="#CC111111">
 
     <Grid RowDefinitions="Auto Auto *"
           Margin="0 32 0 0">
