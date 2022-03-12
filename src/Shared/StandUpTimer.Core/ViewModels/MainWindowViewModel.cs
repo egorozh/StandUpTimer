@@ -2,10 +2,11 @@
 using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StandUpTimer.Core.ViewModels;
 
-public class MainWindowViewModel : BaseViewModel, IDisposable
+public partial class MainWindowViewModel : ObservableObject, IDisposable
 {
     #region Private Fields
 
@@ -16,33 +17,33 @@ public class MainWindowViewModel : BaseViewModel, IDisposable
 
     #endregion
 
-    #region Public Properties
+    #region Observable Fields
 
-    public string? Message { get; set; }
+    [ObservableProperty] private string? _message;
 
-    public bool IsSunday { get; set; }
-    public bool IsMonday { get; set; }
-    public bool IsTuesday { get; set; }
-    public bool IsWednesday { get; set; }
-    public bool IsThursday { get; set; }
-    public bool IsFriday { get; set; }
-    public bool IsSaturday { get; set; }
+    [ObservableProperty] private bool _isSunday;
+    [ObservableProperty] private bool _isMonday;
+    [ObservableProperty] private bool _isTuesday;
+    [ObservableProperty] private bool _isWednesday;
+    [ObservableProperty] private bool _isThursday;
+    [ObservableProperty] private bool _isFriday;
+    [ObservableProperty] private bool _isSaturday;
 
-    public TimeSpan FromTime { get; set; }
+    [ObservableProperty] private TimeSpan _fromTime;
 
-    public TimeSpan ToTime { get; set; }
-
-    /// <summary>
-    /// min
-    /// </summary>
-    public int EveryPeriod { get; set; }
+    [ObservableProperty] private TimeSpan _toTime;
 
     /// <summary>
     /// min
     /// </summary>
-    public int StandTime { get; set; }
+    [ObservableProperty] private int _everyPeriod;
 
-    public bool LaunchAtStartup { get; set; }
+    /// <summary>
+    /// min
+    /// </summary>
+    [ObservableProperty] private int _standTime;
+
+    [ObservableProperty] private bool _launchAtStartup;
 
     #endregion
 
@@ -60,12 +61,23 @@ public class MainWindowViewModel : BaseViewModel, IDisposable
 
         var timerSettings = appSettings.TimerSettings;
 
-        FromTime = timerSettings.FromTime;
-        ToTime = timerSettings.ToTime;
-        EveryPeriod = timerSettings.EveryPeriod.Minutes;
-        StandTime = timerSettings.StandTime.Minutes;
+        _fromTime = timerSettings.FromTime;
+        _toTime = timerSettings.ToTime;
+        _everyPeriod = timerSettings.EveryPeriod.Minutes;
+        _standTime = timerSettings.StandTime.Minutes;
 
-        LaunchAtStartup = appSettings.LaunchAtStartup;
+        _launchAtStartup = appSettings.LaunchAtStartup;
+
+        void SetActiveDays(Day day)
+        {
+            _isMonday = day.HasFlag(Day.Monday);
+            _isTuesday = day.HasFlag(Day.Tuesday);
+            _isWednesday = day.HasFlag(Day.Wednesday);
+            _isThursday = day.HasFlag(Day.Thursday);
+            _isFriday = day.HasFlag(Day.Friday);
+            _isSaturday = day.HasFlag(Day.Saturday);
+            _isSunday = day.HasFlag(Day.Sunday);
+        }
 
         SetActiveDays(timerSettings.Day);
 
@@ -86,41 +98,8 @@ public class MainWindowViewModel : BaseViewModel, IDisposable
     }
 
     #endregion
-    
+
     #region Private Methods
-
-    private Day GetActiveDays()
-    {
-        var day = Day.None;
-
-        if (IsMonday)
-            day |= Day.Monday;
-        if (IsTuesday)
-            day |= Day.Tuesday;
-        if (IsWednesday)
-            day |= Day.Wednesday;
-        if (IsThursday)
-            day |= Day.Thursday;
-        if (IsFriday)
-            day |= Day.Friday;
-        if (IsSaturday)
-            day |= Day.Saturday;
-        if (IsSunday)
-            day |= Day.Sunday;
-
-        return day;
-    }
-
-    private void SetActiveDays(Day day)
-    {
-        IsMonday = day.HasFlag(Day.Monday);
-        IsTuesday = day.HasFlag(Day.Tuesday);
-        IsWednesday = day.HasFlag(Day.Wednesday);
-        IsThursday = day.HasFlag(Day.Thursday);
-        IsFriday = day.HasFlag(Day.Friday);
-        IsSaturday = day.HasFlag(Day.Saturday);
-        IsSunday = day.HasFlag(Day.Sunday);
-    }
 
     private void MainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -152,10 +131,29 @@ public class MainWindowViewModel : BaseViewModel, IDisposable
         StandTime = new TimeSpan(0, StandTime, 0),
     };
 
-    private void StandTimerOnStatusChanged(Status status)
+    private Day GetActiveDays()
     {
-        Message = status.ToString();
+        var day = Day.None;
+
+        if (IsMonday)
+            day |= Day.Monday;
+        if (IsTuesday)
+            day |= Day.Tuesday;
+        if (IsWednesday)
+            day |= Day.Wednesday;
+        if (IsThursday)
+            day |= Day.Thursday;
+        if (IsFriday)
+            day |= Day.Friday;
+        if (IsSaturday)
+            day |= Day.Saturday;
+        if (IsSunday)
+            day |= Day.Sunday;
+
+        return day;
     }
+
+    private void StandTimerOnStatusChanged(Status status) => Message = status.ToString();
 
     #endregion
 }

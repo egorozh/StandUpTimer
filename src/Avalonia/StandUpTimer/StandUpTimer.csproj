@@ -11,8 +11,7 @@
 	
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.3.0" />
-		<PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
-		<PackageReference Include="Prism.Core" Version="8.1.97" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.13" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 	</ItemGroup>
 

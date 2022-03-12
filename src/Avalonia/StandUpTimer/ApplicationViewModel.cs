@@ -2,35 +2,31 @@ using Autofac;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Prism.Commands;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using StandUpTimer.Core.ViewModels;
 using StandUpTimer.Views;
 using System.Windows.Input;
-using IContainer = Autofac.IContainer;
 
 namespace StandUpTimer;
 
-public class ApplicationViewModel : BaseViewModel
+public partial class ApplicationViewModel : ObservableObject
 {
     private readonly IContainer _host;
-
-    public ICommand ExitCommand { get; }
-    public ICommand OpenMainWindowCommand { get; }
-
+    
     public ApplicationViewModel(IContainer host)
     {
         _host = host;
-
-        ExitCommand = new DelegateCommand(OnExit);
-        OpenMainWindowCommand = new DelegateCommand(OpenMainWindow);
     }
 
-    private void OnExit()
+    [ICommand]
+    private void Exit()
     {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             desktop.Shutdown();
     }
 
+    [ICommand]
     private void OpenMainWindow()
     {
         if (Application.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
