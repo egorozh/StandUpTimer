@@ -5,10 +5,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StandUpTimer.Core.ViewModels;
-using StandUpTimer.Views;
-using System.Windows.Input;
 
-namespace StandUpTimer;
+namespace StandUpTimer.ViewModels;
 
 public partial class ApplicationViewModel : ObservableObject
 {

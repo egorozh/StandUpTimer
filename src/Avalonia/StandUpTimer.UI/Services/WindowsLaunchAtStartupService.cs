@@ -1,11 +1,10 @@
 ﻿using Microsoft.Win32;
 using Serilog;
 using StandUpTimer.Core.Services;
-using System;
 
-namespace StandUpTimer.Services;
+namespace StandUpTimer.UI.Services;
 
-internal class WindowsLaunchAtStartupService : ILaunchAtStartupService
+public class WindowsLaunchAtStartupService : ILaunchAtStartupService
 {
     #region Private Fields
 

@@ -1,9 +1,8 @@
-﻿using Avalonia.Data.Converters;
+﻿using System.Globalization;
+using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
-using System;
-using System.Globalization;
 
-namespace StandUpTimer.ValueConverters;
+namespace StandUpTimer.UI.ValueConverters;
 
 internal abstract class BaseValueConverter : MarkupExtension, IValueConverter
 {

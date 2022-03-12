@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<ApplicationIcon>Assets\desk.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,19 +14,10 @@
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.13" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Assets\desk.ico" />
+		<ProjectReference Include="..\..\Shared\StandUpTimer.Core\StandUpTimer.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\StandUpTimer.UI\StandUpTimer.UI.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Properties\PublishProfiles\" />
-	</ItemGroup>
-	
 </Project>

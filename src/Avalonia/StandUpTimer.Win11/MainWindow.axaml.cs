@@ -2,9 +2,9 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using System;
 
-namespace StandUpTimer.Views;
+namespace StandUpTimer.Win11;
 
-public partial class MainWindow : Window
+public class MainWindow : Window
 {
     public MainWindow()
     {

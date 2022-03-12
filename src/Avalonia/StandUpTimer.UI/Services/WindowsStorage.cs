@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using StandUpTimer.Core.Services;
+﻿using StandUpTimer.Core.Services;
 
-namespace StandUpTimer.Services;
+namespace StandUpTimer.UI.Services;
 
-internal class WindowsStorage : IStorage
+public class WindowsStorage : IStorage
 {
     public string UserDirectory { get; }
     public string LogPath { get; }

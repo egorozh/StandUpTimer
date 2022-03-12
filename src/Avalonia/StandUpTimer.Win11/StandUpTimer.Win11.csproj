@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ApplicationIcon>Assets\desk.ico</ApplicationIcon>
 	</PropertyGroup>
@@ -14,11 +14,7 @@
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Avalonia.Desktop" Version="0.10.13" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="Assets\desk.ico" />
+		<PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -26,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Properties\PublishProfiles\" />
+		<Content Include="Assets\desk.ico" />
 	</ItemGroup>
-	
+
 </Project>

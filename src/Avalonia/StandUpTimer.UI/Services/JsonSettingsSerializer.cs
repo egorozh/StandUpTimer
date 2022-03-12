@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Serilog;
 using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 
-namespace StandUpTimer.Services;
+namespace StandUpTimer.UI.Services;
 
 public class JsonSettingsSerializer : ISettingsSerializer
 {

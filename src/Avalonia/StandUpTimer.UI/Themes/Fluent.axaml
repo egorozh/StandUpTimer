@@ -1,6 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:valueConverters="clr-namespace:StandUpTimer.ValueConverters">
+        xmlns:valueConverters="clr-namespace:StandUpTimer.UI.ValueConverters">
 
     <FluentTheme Mode="Dark" />
 
@@ -67,4 +67,5 @@
             </ControlTemplate>
         </Setter>
     </Style>
+
 </Styles>

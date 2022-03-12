@@ -1,8 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using StandUpTimer.Localization;
 
-namespace StandUpTimer.ValueConverters;
+namespace StandUpTimer.UI.ValueConverters;
 
 internal class MinuteFormatConverter : BaseValueConverter
 {

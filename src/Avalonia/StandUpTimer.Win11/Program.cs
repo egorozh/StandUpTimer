@@ -1,15 +1,19 @@
 ﻿using Avalonia;
 using System;
 
-namespace StandUpTimer;
+namespace StandUpTimer.Win11;
 
 internal class Program
 {
     [STAThread]
     public static void Main(string[] args) => BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
-    
+
     public static AppBuilder BuildAvaloniaApp() => AppBuilder.Configure<App>()
-            .UsePlatformDetect()
-            .LogToTrace();
+        .UsePlatformDetect()
+        .With(new Win32PlatformOptions
+        {
+            UseWindowsUIComposition = true,
+        })
+        .LogToTrace();
 }

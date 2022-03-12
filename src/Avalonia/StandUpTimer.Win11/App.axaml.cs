@@ -4,10 +4,10 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using StandUpTimer.Core.ViewModels;
-using StandUpTimer.ViewModels;
+using StandUpTimer.Win11.ViewModels;
 using System.Globalization;
 
-namespace StandUpTimer;
+namespace StandUpTimer.Win11;
 
 public class App : Application
 {

@@ -9,7 +9,6 @@ internal class DefaultNotifyService : INotifyService
 {
     public async Task Notify(Notify notify)
     {
-#if !WIN10
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
             var messageBoxStandardWindow = MessageBox.Avalonia.MessageBoxManager
@@ -17,7 +16,5 @@ internal class DefaultNotifyService : INotifyService
 
             var result = await messageBoxStandardWindow.Show();
         });
-#endif
-
     }
 }
