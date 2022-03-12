@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/egorozh/StandUpTimer">
-    <img alt="StandUpTimer" width="200" heigth="200" src="https://github.com/egorozh/StandUpTimer/blob/master/src/Avalonia/StandUpTimer/Assets/stand.png">
+    <img alt="StandUpTimer" width="200" heigth="200" src="https://github.com/egorozh/StandUpTimer/blob/master/src/Avalonia/StandUpTimer.UI/Assets/stand.png">
   </a>
   <h1>StandUpTimer</h1>
   <p>
