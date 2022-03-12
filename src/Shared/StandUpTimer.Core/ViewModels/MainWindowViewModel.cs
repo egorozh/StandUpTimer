@@ -1,8 +1,8 @@
-﻿using Serilog;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Serilog;
 using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace StandUpTimer.Core.ViewModels;
 

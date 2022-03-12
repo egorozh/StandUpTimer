@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:StandUpTimer.UI.Views;assembly=StandUpTimer.UI"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="StandUpTimer.Win11.MainWindow"
+        x:Class="StandUpTimer.UI.MainWindow"
         Icon="/Assets/desk.ico"
 
         Title="Stand Up Timer"
@@ -13,7 +13,7 @@
         CanResize="True"
         WindowStartupLocation="CenterScreen"
 
-        TransparencyLevelHint="Mica"
+        TransparencyLevelHint="Blur"
         ExtendClientAreaToDecorationsHint="True"
 
         Background="#CC111111">

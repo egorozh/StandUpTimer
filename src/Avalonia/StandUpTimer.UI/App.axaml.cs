@@ -3,22 +3,29 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using StandUpTimer.Core.ViewModels;
-using StandUpTimer.ViewModels;
+using StandUpTimer.UI.Services;
 using System.Globalization;
+using StandUpTimer.UI.ViewModels;
 
-namespace StandUpTimer;
+namespace StandUpTimer.UI;
 
 public class App : Application
 {
-    private readonly IContainer _host;
+    private readonly IContainer _host = null!;
+
+    public Action<ContainerBuilder> ServiceProvider
+    {
+        init
+        {
+            _host = Startup.GetHost(value);
+            DataContext = _host.Resolve<ApplicationViewModel>();
+        }
+    }
 
     public App()
     {
         CultureInfo.CurrentCulture = new CultureInfo("en-us");
         CultureInfo.CurrentUICulture = new CultureInfo("en-us");
-        _host = Startup.GetHost();
-        DataContext = new ApplicationViewModel(_host);
     }
 
     public override void Initialize() => AvaloniaXamlLoader.Load(this);
@@ -29,10 +36,7 @@ public class App : Application
         {
             desktop.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = _host.Resolve<MainWindowViewModel>(),
-            };
+            desktop.MainWindow = _host.Resolve<IWindowService>().CreateWindow();
         }
 
         base.OnFrameworkInitializationCompleted();

@@ -4,15 +4,17 @@ using StandUpTimer.Core.Models;
 using StandUpTimer.Core.Services;
 using StandUpTimer.Core.ViewModels;
 using StandUpTimer.UI.Services;
-using StandUpTimer.Win11.Services;
+using StandUpTimer.UI.ViewModels;
 
-namespace StandUpTimer.Win11;
+namespace StandUpTimer.UI;
 
 internal class Startup
 {
-    public static IContainer GetHost()
+    public static IContainer GetHost(Action<ContainerBuilder> serviceProvider)
     {
         var builder = new ContainerBuilder();
+
+        serviceProvider.Invoke(builder);
 
         builder.Register(c =>
         {
@@ -23,13 +25,14 @@ internal class Startup
 
             return Log.Logger;
         }).As<ILogger>().SingleInstance();
-        
-        builder.RegisterType<WindowsNotifyService>().As<INotifyService>().SingleInstance();
+       
+        builder.RegisterType<ShutdownService>().As<IShutdownService>().SingleInstance();
         builder.RegisterType<WindowsLaunchAtStartupService>().As<ILaunchAtStartupService>().SingleInstance();
         builder.RegisterType<JsonSettingsSerializer>().As<ISettingsSerializer>().SingleInstance();
         builder.RegisterType<WindowsStorage>().As<IStorage>().SingleInstance();
         builder.RegisterType<SettingsStorage>().As<ISettingsStorage>().SingleInstance();
         builder.RegisterType<StandTimer>().AsSelf().SingleInstance();
+        builder.RegisterType<ApplicationViewModel>().AsSelf();
         builder.RegisterType<MainWindowViewModel>().AsSelf();
 
         return builder.Build();
